@@ -6,7 +6,7 @@ export interface Employee{
     firstName:string;
     lastName:string;
     password:string;
-    personalCode:null;
+    personalCode:bigint;
     email:string;
     address:string;
     phone:string;
