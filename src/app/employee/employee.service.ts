@@ -31,4 +31,8 @@ import { HttpClient } from '@angular/common/http';
         return this.http.get<Employee>(`${this.apiServerUrl}/employee/find/${employeeId}`);
     }
 
+    public getEmployeeByTransactionId(transactionId: number): Observable<Employee> {
+        return this.http.get<Employee>(`${this.apiServerUrl}/employee/findEmp/${transactionId}`);
+    }
+
   }

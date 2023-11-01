@@ -5,6 +5,10 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { NgForm } from "@angular/forms";
 import { Subject, debounceTime } from "rxjs";
+import { ShareService } from "../share/share.service";
+import { Share } from "../share/share";
+import { Employee } from "../employee/employee";
+import { EmployeeService } from "../employee/employee.service";
 
 @Component({
     selector: 'app-transaction',
@@ -19,16 +23,17 @@ import { Subject, debounceTime } from "rxjs";
   public searchKey: string = '';
   private searchTermSubject = new Subject<string>();
 
-  constructor(private transactionService: TransactionService,private router: Router) {}
+  constructor(private transactionService: TransactionService,private router: Router,private shareService:ShareService, private employeeService:EmployeeService) {}
 
   title = 'Transactions';
   ngOnInit() {
     this.setupSearchDebouncing();
-    this.getTransactions();
+    // this.getTransactions();
+    this.getTransactionsWithShares();
   }
   private setupSearchDebouncing(): void {
     this.searchTermSubject.pipe(debounceTime(300)).subscribe(() => {
-      this.getTransactions();
+      this.getTransactionsWithShares();
     });
   }
 
@@ -40,36 +45,52 @@ import { Subject, debounceTime } from "rxjs";
     this.router.navigate(['/transaction']); // Navigate to the '/transaction' route
   }
 
-  public getTransactions(): void {
-    this.transactionService.getAllTransactions().subscribe(
-      (response: Transaction[]) => {
-        this.transactions = response;
-        console.log(this.transactions);
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message)
-      }
-    )
-  }
-
-  //Method to handle addition of a new transaction
-  // public onAddTransaction(addForm: NgForm): void {
-  //   const addTransactionForm = document.getElementById('add-transaction-form');
-  //   if(addTransactionForm){
-  //     addTransactionForm.click();
-  //   }
-  //   this.transactionService.addTransaction(addForm.value).subscribe(
-  //     (response: Transaction) => {
-  //       console.log(response);
-  //       this.getTransactions(); //Retrieve all transactions after adding a new one
-  //       addForm.reset(); //Rest the form after successful addition
+  // public getTransactions(): void {
+  //   this.transactionService.getAllTransactions().subscribe(
+  //     (response: Transaction[]) => {
+  //       this.transactions = response;
+  //       console.log(this.transactions);
   //     },
   //     (error: HttpErrorResponse) => {
-  //       alert(error.message);
-  //       addForm.reset();
+  //       alert(error.message)
   //     }
   //   )
   // }
+
+  public getTransactionsWithShares(): void {
+    this.transactionService.getAllTransactions().subscribe(
+      (response: Transaction[]) => {
+        this.transactions = response;
+        this.attachShareInfoToTransactions();
+        console.log(this.transactions);
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
+  private attachShareInfoToTransactions(): void {
+    if (this.transactions) {
+      this.transactions.forEach(transaction => {
+        this.shareService.getShareByTransactionId(transaction.id).subscribe(
+          (share: Share) => {
+            transaction.share = share;
+          },
+          (error: HttpErrorResponse) => {
+            console.error(error);
+          }
+        );
+        this.employeeService.getEmployeeByTransactionId(transaction.id).subscribe(
+          (employee: Employee) => {
+            transaction.employee = employee;
+          },
+          (error: HttpErrorResponse) => {
+            console.error(error);
+          }
+        );
+      });
+    }
+  }
   public onAddTransaction(addForm: NgForm): void {
     const empId = addForm.value.empId;
     const secId = addForm.value.secId;
@@ -78,7 +99,7 @@ import { Subject, debounceTime } from "rxjs";
   this.transactionService.addTransaction(addForm.value, empId, secId).subscribe(
     (response: Transaction) => {
       console.log(response);
-      this.getTransactions();
+      this.getTransactionsWithShares();
       addForm.reset();
     },
     (error: HttpErrorResponse) => {
@@ -92,7 +113,7 @@ import { Subject, debounceTime } from "rxjs";
     this.transactionService.updateTransaction(transaction).subscribe(
       (response:Transaction) => {
         console.log(response);
-        this.getTransactions()
+        this.getTransactionsWithShares()
       },
       (error:HttpErrorResponse) => {
         alert (error.message);
@@ -108,7 +129,7 @@ import { Subject, debounceTime } from "rxjs";
     this.transactionService.deleteTransaction(transactionId).subscribe(
       (response:void) => {
         console.log(response);
-        this.getTransactions()
+        this.getTransactionsWithShares()
       },
       (error:HttpErrorResponse) => {
         alert (error.message);
@@ -164,7 +185,7 @@ import { Subject, debounceTime } from "rxjs";
     this.transactions = results;
   
     if (results.length === 0 || !this.searchKey) {
-      this.getTransactions();
+      this.getTransactionsWithShares();
     }
   }
   }

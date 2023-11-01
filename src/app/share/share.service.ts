@@ -24,5 +24,8 @@ import { HttpClient } from '@angular/common/http';
     public updateShare(share:Share):Observable<Share>{
         return this.http.put<Share>(`${this.apiServerUrl}/share/update`,share);
     }
+    public getShareByTransactionId(transactionId: number): Observable<Share> {
+        return this.http.get<Share>(`${this.apiServerUrl}/share/find/${transactionId}`);
+    }
 
   }
