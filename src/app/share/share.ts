@@ -7,5 +7,4 @@ export interface Share{
    isin:string;
    country:string;
    economicField:string;
-   transaction:Transaction[]; 
-}
+   transaction:Transaction[];}

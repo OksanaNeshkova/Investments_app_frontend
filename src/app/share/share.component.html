@@ -1,17 +1,5 @@
-<!-- export interface Share{
-    id:number;
-    companyName:string;
-    shareName:string;
-    isin:string;
-    country:string;
-    economicField:string;
-    transaction:Transaction[]; 
- } -->
-
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-
     <div class="collapse navbar-collapse" id="navbarColor02">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
@@ -20,15 +8,12 @@
                 </button>
             </li>
         </ul>
-
         <form class="form-inline my-2 my-lg-0">
             <input type="search" (ngModelChange)="searchShares(key.value)" #key="ngModel" ngModel name="key"
                 id="searchName" class="form-control mr-sm-2" placeholder="Search shares..." required>
         </form>
     </div>
 </nav>
-
-
 <!--Get all share-->
 <div class="container" id="main-container">
     <div class="row">
@@ -84,7 +69,6 @@
         </div>
     </div>
 </div>
-
 <!-- Add Share Modal-->
 <div class="modal fade" id="addShareModal" tabindex="-1" role="dialog" aria-labelledby="addShareModalLabel"
     aria-hidden="true">
@@ -139,7 +123,6 @@
         </div>
     </div>
 </div>
-
 <!-- Edit Share Modal -->
 <div class="modal fade" id="updateShareModal" tabindex="-1" role="dialog" aria-labelledby="updateShareModalLabel"
     aria-hidden="true">
@@ -194,7 +177,6 @@
         </div>
     </div>
 </div>
-
 <!-- Notification for no shares -->
 <div *ngIf="shares?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
     <div class="alert alert-info" role="alert">

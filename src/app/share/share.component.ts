@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { Share } from './share';
 import { ShareService } from './share.service';
@@ -6,30 +7,21 @@ import { NgFor } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-
-
-
 @Component({
     selector: 'app-share',
     templateUrl: './share.component.html',
     styleUrls: ['./share.component.css']
 })
-
 export class ShareComponent implements OnInit {
-
     public shares: Share[] | undefined;
     public editShare: Share | undefined | null;
-
     constructor(private shareService: ShareService, private router: Router) { }
-
     ngOnInit() {
         this.getAllShares();
     }
-
     goToEmployee(): void {
         this.router.navigate(['/share']); // Navigate to the '/share' route
     }
-
     public getAllShares(): void {
         this.shareService.getAllShares().subscribe(
             (response: Share[]) => {
@@ -41,7 +33,6 @@ export class ShareComponent implements OnInit {
             }
         )
     }
-
     //Method to handle the addition of a new share
     public onAddShare(addForm: NgForm): void {
         this.shareService.addShares(addForm.value).subscribe(
@@ -56,12 +47,9 @@ export class ShareComponent implements OnInit {
             }
         )
     }
-
-
     //To handle updating existing share
     public onUpdateShare(formValues: any): void {
         const updatedShare: Share = { ...this.editShare, ...formValues };
-    
         this.shareService.updateShare(updatedShare).subscribe(
             (response: Share) => {
                 console.log(response);
@@ -72,7 +60,6 @@ export class ShareComponent implements OnInit {
             }
         );
     }
-
     public onOpenModal(share: Share | null, mode: string): void {
         // Method to handle modal window for adding, editing or deleting an share
         const container = document.getElementById('main-container');
@@ -92,7 +79,6 @@ export class ShareComponent implements OnInit {
         }
         button.click();
     }
-
     public searchShares(key: string): void {
         // Method to search for shares based on a keyword
         console.log(key);
@@ -116,5 +102,4 @@ export class ShareComponent implements OnInit {
             this.getAllShares(); // Retrieve all shares if the keyword is empty or no results are found
         }
     }
-
 }
