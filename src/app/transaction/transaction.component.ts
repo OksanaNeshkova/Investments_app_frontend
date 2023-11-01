@@ -3,6 +3,8 @@ import { Transaction } from "./transaction";
 import { TransactionService } from "./transaction.service";
 import { HttpErrorResponse } from "@angular/common/http";
 import { Router } from "@angular/router";
+import { NgForm } from "@angular/forms";
+import { Subject, debounceTime } from "rxjs";
 
 @Component({
     selector: 'app-transaction',
@@ -12,14 +14,26 @@ import { Router } from "@angular/router";
   export class TransactionComponent implements OnInit {
 
   public transactions: Transaction[] | undefined;
-//   public editTransaction:Transaction | undefined | null;
-//   public deleteTransaction:Transaction | undefined | null;
+  public editTransaction:Transaction | undefined | null;
+  public deleteTransaction:Transaction | undefined | null;
+  public searchKey: string = '';
+  private searchTermSubject = new Subject<string>();
 
   constructor(private transactionService: TransactionService,private router: Router) {}
 
-  title = 'employeemanagerapp';
+  title = 'Transactions';
   ngOnInit() {
+    this.setupSearchDebouncing();
     this.getTransactions();
+  }
+  private setupSearchDebouncing(): void {
+    this.searchTermSubject.pipe(debounceTime(300)).subscribe(() => {
+      this.getTransactions();
+    });
+  }
+
+  public onSearchChange(): void {
+    this.searchTermSubject.next(this.searchKey);
   }
   
   goToTransactions(): void {
@@ -38,13 +52,13 @@ import { Router } from "@angular/router";
     )
   }
 
-  // //Method to handle addition of a new employee
-  // public onAddEmployee(addForm: NgForm): void {
-  //   const addEmployeeForm = document.getElementById('add-empployee-form');
-  //   if(addEmployeeForm){
-  //     addEmployeeForm.click();
+  //Method to handle addition of a new transaction
+  // public onAddTransaction(addForm: NgForm): void {
+  //   const addTransactionForm = document.getElementById('add-transaction-form');
+  //   if(addTransactionForm){
+  //     addTransactionForm.click();
   //   }
-  //   this.transactionService.addEmployee(addForm.value).subscribe(
+  //   this.transactionService.addTransaction(addForm.value).subscribe(
   //     (response: Transaction) => {
   //       console.log(response);
   //       this.getTransactions(); //Retrieve all transactions after adding a new one
@@ -56,78 +70,101 @@ import { Router } from "@angular/router";
   //     }
   //   )
   // }
+  public onAddTransaction(addForm: NgForm): void {
+    const empId = addForm.value.empId;
+    const secId = addForm.value.secId;
 
-  // //To handle updating existing employee
-  // public onUpdateEmployee (employee:Transaction): void {
-  //   this.transactionService.updateEmployee(employee).subscribe(
-  //     (response:Transaction) => {
-  //       console.log(response);
-  //       this.getTransactions()
-  //     },
-  //     (error:HttpErrorResponse) => {
-  //       alert (error.message);
-  //     }
-  //   )
-  // }
 
-  // //To handle deletion of an employee
-  // public onDeleteEmployee (employeeId:number|undefined):void {
-  //   if (employeeId == undefined){
-  //     return;
-  //   }
-  //   this.transactionService.deleteEmployee(employeeId).subscribe(
-  //     (response:void) => {
-  //       console.log(response);
-  //       this.getTransactions()
-  //     },
-  //     (error:HttpErrorResponse) => {
-  //       alert (error.message);
-  //     }
-  //   )
-  // }
+  this.transactionService.addTransaction(addForm.value, empId, secId).subscribe(
+    (response: Transaction) => {
+      console.log(response);
+      this.getTransactions();
+      addForm.reset();
+    },
+    (error: HttpErrorResponse) => {
+      alert(error.message);
+      addForm.reset();
+    }
+  );
+  }
+  //To handle updating existing transaction
+  public onUpdateTransaction (transaction:Transaction): void {
+    this.transactionService.updateTransaction(transaction).subscribe(
+      (response:Transaction) => {
+        console.log(response);
+        this.getTransactions()
+      },
+      (error:HttpErrorResponse) => {
+        alert (error.message);
+      }
+    )
+  }
 
-  // public onOpenModal(employee: Transaction | null, mode: string): void {
-  //   // Method to handle modal window for adding, editing or deleting an employee
-  //   const container = document.getElementById('main-container');
-  //   const button = document.createElement('button');
-  //   button.type = 'button';
-  //   button.style.display = 'none';
-  //   button.setAttribute('data-toggle', 'modal');
-  //   if (mode === 'add') {
-  //     button.setAttribute('data-target', '#addEmployeeModal');
-  //   }
-  //   if (mode === 'edit') {
-  //     this.editEmployee = employee; // Assign the employee to be edited to the editEmployee object
-  //     button.setAttribute('data-target', '#updateEmployeeModal');
-  //   }
-  //   if (mode === 'delete') {
-  //     this.deleteEmployee = employee; // Assign the employee to be deleted to the deleteEmployee object
-  //     button.setAttribute('data-target', '#deleteEmployeeModal');
-  //   }
-  //   if(container){
-  //     container.appendChild(button);
-  //   }
-  //   button.click();
-  // }
+  //To handle deletion of a transaction
+  public onDeleteTransaction (transactionId:number|undefined):void {
+    if (transactionId == undefined){
+      return;
+    }
+    this.transactionService.deleteTransaction(transactionId).subscribe(
+      (response:void) => {
+        console.log(response);
+        this.getTransactions()
+      },
+      (error:HttpErrorResponse) => {
+        alert (error.message);
+      }
+    )
+  }
 
-  // public searchEmployees(key: string): void {
-  //   // Method to search for transactions based on a keyword
-  //   console.log(key);
-  //   if (!this.transactions) {
-  //     return;
-  //   }
-  //   const results: Transaction[] = [];
-  //   for (const employee of this.transactions) {
-  //     if (employee.name.toLowerCase().indexOf(key.toLowerCase()) !== -1
-  //     || employee.email.toLowerCase().indexOf(key.toLowerCase()) !== -1
-  //     || employee.phone.toLowerCase().indexOf(key.toLowerCase()) !== -1
-  //     || employee.jobTitle.toLowerCase().indexOf(key.toLowerCase()) !== -1) {
-  //       results.push(employee); // Add the matching transactions to the results array
-  //     }
-  //   }
-  //   this.transactions = results; // Replace the component's transactions array with the results array
-  //   if (results.length === 0 || !key) {
-  //     this.getTransactions(); // Retrieve all transactions if the keyword is empty or no results are found
-  //   }
-  // }
+  public onOpenModal(transaction: Transaction | null, mode: string): void {
+    // Method to handle modal window for adding, editing or deleting a transaction
+    const container = document.getElementById('main-container');
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.style.display = 'none';
+    button.setAttribute('data-toggle', 'modal');
+    if (mode === 'add') {
+      button.setAttribute('data-target', '#addTransactionModal');
+    }
+    if (mode === 'edit') {
+      this.editTransaction = transaction; // Assign the transaction to be edited to the editEmployee object
+      button.setAttribute('data-target', '#updateTransactionModal');
+    }
+    if (mode === 'delete') {
+      this.deleteTransaction = transaction; // Assign the transaction to be deleted to the deleteEmployee object
+      button.setAttribute('data-target', '#deleteTransactionModal');
+    }
+    if(container){
+      container.appendChild(button);
+    }
+    button.click();
+  }
+
+  public searchTransaction(): void {
+    if (!this.transactions) {
+      return;
+    }
+  
+    const lowerCaseKey = this.searchKey.toLowerCase(); // Convert search key to lowercase for case-insensitive comparison
+    const results: Transaction[] = [];
+  
+    for (const transaction of this.transactions) {
+      if (
+        transaction.share.isin.toLowerCase().includes(lowerCaseKey) ||
+        transaction.volume.toString().includes(this.searchKey) ||
+        transaction.price.toString().includes(this.searchKey) ||
+        transaction.currency.toLowerCase().includes(lowerCaseKey) ||
+        transaction.employee.firstName.toLowerCase().includes(lowerCaseKey) ||
+        transaction.employee.lastName.toLowerCase().includes(lowerCaseKey)
+      ) {
+        results.push(transaction);
+      }
+    }
+    
+    this.transactions = results;
+  
+    if (results.length === 0 || !this.searchKey) {
+      this.getTransactions();
+    }
+  }
   }
