@@ -1,0 +1,204 @@
+<!-- export interface Share{
+    id:number;
+    companyName:string;
+    shareName:string;
+    isin:string;
+    country:string;
+    economicField:string;
+    transaction:Transaction[]; 
+ } -->
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+    <div class="collapse navbar-collapse" id="navbarColor02">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addShareModal">
+                    Add Share
+                </button>
+            </li>
+        </ul>
+
+        <form class="form-inline my-2 my-lg-0">
+            <input type="search" (ngModelChange)="searchShares(key.value)" #key="ngModel" ngModel name="key"
+                id="searchName" class="form-control mr-sm-2" placeholder="Search shares..." required>
+        </form>
+    </div>
+</nav>
+
+
+<!--Get all share-->
+<div class="container" id="main-container">
+    <div class="row">
+        <div class="col-md-0">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title text-uppercase mb-0">Manage Shares</h5>
+                </div>
+                <div class="table-responsive">
+                    <table class="table no-wrap user-table mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="border-0 text-uppercase font-medium">#</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium">Company Name</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium">Share Name</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium">Isin</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium">Country</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium">Economic Field</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium">Transaction</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let share of shares">
+                                <td class="pl-2">{{share?.id}}</td>
+                                <td>
+                                    <h5 class="font-medium mb-0">{{share?.companyName}}</h5>
+                                </td>
+                                <td>
+                                    <h5 class="font-medium mb-0">{{share?.shareName}}</h5>
+                                </td>
+                                <td>
+                                    <h5 class="font-medium mb-0">{{share?.isin}}</h5>
+                                </td>
+                                <td>
+                                    <h5 class="font-medium mb-0">{{share?.country}}</h5>
+                                </td>
+                                <td>
+                                    <h5 class="font-medium mb-0">{{share?.economicField}}</h5>
+                                </td>
+                                <td>
+                                    <h5 class="font-medium mb-0">{{share?.transaction}}</h5>
+                                </td>
+                                <td>
+                                    <button (click)="onOpenModal(share, 'edit')"
+                                        class="btn btn-outline-info btn-circle btn-lg btn-circle ml-0"><i
+                                            class="fa fa-edit"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Share Modal-->
+<div class="modal fade" id="addShareModal" tabindex="-1" role="dialog" aria-labelledby="addShareModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addShareModalLabel">Add share</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #addForm="ngForm" (ngSubmit)="onAddShare(addForm)">
+                    <div class="form-group">
+                        <label for="companyName">Company Name</label>
+                        <input type="text" ngModel name="companyName" class="form-control" id="companyName"
+                            placeholder="Company Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="shareName">Share Name</label>
+                        <input type="text" ngModel name="shareName" class="form-control" id="shareName"
+                            placeholder="Share Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="isin">ISIN</label>
+                        <input type="text" ngModel name="isin" class="form-control" id="isin" placeholder="ISIN"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Country</label>
+                        <input type="text" ngModel name="country" class="form-control" id="country"
+                            placeholder="Country" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="economicField">Economic Field</label>
+                        <input type="text" ngModel name="economicField" class="form-control" id="economicField"
+                            placeholder="Economic Field" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="transaction">Transaction</label>
+                        <input type="text" ngModel name="transaction" class="form-control" id="transaction"
+                            placeholder="Transaction" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="closeEditModalBtn" data-dismiss="modal"
+                            class="btn btn-secondary">Close</button>
+                        <button (click)="onAddShare(addForm)" data-dismiss="modal" class="btn btn-primary"
+                            [disabled]="addForm.invalid">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Share Modal -->
+<div class="modal fade" id="updateShareModal" tabindex="-1" role="dialog" aria-labelledby="updateShareModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateShareModalLabel">Edit Share Details </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #editForm="ngForm">
+                    <div class="form-group">
+                        <label for="companyName">Company Name</label>
+                        <input type="text" ngModel="{{editShare?.companyName}}" name="companyName" class="form-control"
+                            id="companyName" placeholder="Company Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="shareName">Share Name</label>
+                        <input type="text" ngModel="{{editShare?.shareName}}" name="shareName" class="form-control"
+                            id="shareName" placeholder="Share Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="isin">ISIN</label>
+                        <input type="text" ngModel="{{editShare?.isin}}" name="isin" class="form-control" id="isin"
+                            placeholder="ISIN" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Country</label>
+                        <input type="text" ngModel="{{editShare?.country}}" name="country" class="form-control"
+                            id="country" placeholder="Country" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="economicField">Economic Field</label>/
+                        <input type="text" ngModel="{{editShare?.economicField}}" name="economicField"
+                            class="form-control" id="economicField" placeholder="Economic Field" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="transaction">Transaction</label>
+                        <input type="text" ngModel="{{editShare?.transaction}}" name="transaction" class="form-control"
+                            id="transaction" placeholder="Transaction" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="closeEditModalBtn" data-dismiss="modal"
+                            class="btn btn-secondary">Close</button>
+                        <button (click)="onUpdateShare(editForm.value)" data-dismiss="modal" class="btn btn-primary"
+                            [disabled]="editForm.invalid">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Notification for no shares -->
+<div *ngIf="shares?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
+    <div class="alert alert-info" role="alert">
+        <h4 class="alert-heading">NO SHARES!</h4>
+        <p>No shares were found.</p>
+    </div>
+</div>

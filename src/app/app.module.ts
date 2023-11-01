@@ -6,17 +6,22 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { TransactionComponent } from './transaction/transaction.component';
 import { EmployeeComponent } from './employee/employee.component';
+import { ShareComponent } from './share/share.component';
+import { FormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     TransactionComponent,
-    EmployeeComponent
+    EmployeeComponent,
+    ShareComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
 
   providers: [],

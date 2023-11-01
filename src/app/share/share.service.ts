@@ -2,7 +2,8 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environments";
 import { Share } from "./share";
-import { HttpClient } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http';
+
 
 @Injectable({
     providedIn: 'root'
@@ -16,7 +17,7 @@ import { HttpClient } from '@angular/common/http'
         return this.http.get<Share[]>(`${this.apiServerUrl}/share/all`);
     }
 
-    public addShare(share:Share):Observable<Share>{
+    public addShares(share:Share):Observable<Share>{
         return this.http.post<Share>(`${this.apiServerUrl}/share/add`,share);
     }
 
