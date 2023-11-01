@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { environment } from "src/environments/environments";
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 import { Transaction } from "./transaction";
 import { Observable } from "rxjs";
 
@@ -13,12 +13,27 @@ export class TransactionService {
     constructor(private http: HttpClient) { }
 
     public getAllTransactions(): Observable<Transaction[]> {
-        return this.http.get<Transaction[]>(`${this.apiServerUrl}/transaction/all`);
-    }
+        const authToken = localStorage.getItem('auth-token');
+        if (!authToken) {
+            // Handle token not found, redirect to login page or handle as needed.
+            console.log("token not found")
+        }
+   
+        const headers = new HttpHeaders({
+            'Authorization': 'Basic ' + authToken
+        });
+   
+        return this.http.get<Transaction[]>(`${this.apiServerUrl}/transaction/all`, { headers: headers });
+   }
 
-    public addTransaction(transaction: Transaction): Observable<Transaction> {
-        return this.http.post<Transaction>(`${this.apiServerUrl}/transaction/add`, transaction);
-    }
+
+    public addTransaction(transaction: Transaction, empId: number, secId: number): Observable<Transaction> {
+        const params = new HttpParams()
+          .set('empId', empId.toString())
+          .set('secId', secId.toString());
+    
+        return this.http.post<Transaction>(`${this.apiServerUrl}/transaction/add`, transaction, { params: params });
+      }
 
     public updateTransaction(transaction: Transaction): Observable<Transaction> {
         return this.http.put<Transaction>(`${this.apiServerUrl}/transaction/update`, transaction);
