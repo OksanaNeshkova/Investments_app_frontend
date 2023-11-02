@@ -3,6 +3,7 @@ import { Observable } from "rxjs";
 import { environment } from "src/environments/environments";
 import { Share } from "./share";
 import { HttpClient } from '@angular/common/http';
+import { Balance } from "./balance";
 
 
 @Injectable({
@@ -26,6 +27,10 @@ import { HttpClient } from '@angular/common/http';
     }
     public getShareByTransactionId(transactionId: number): Observable<Share> {
         return this.http.get<Share>(`${this.apiServerUrl}/share/find/${transactionId}`);
+    }
+
+    public getBalances():Observable<Balance[]>{
+        return this.http.get<Balance[]>(`${this.apiServerUrl}/share/balance`);
     }
 
   }

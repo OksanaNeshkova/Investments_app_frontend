@@ -27,19 +27,7 @@ import { LoginService } from "../login/login.service";
 
   title = 'Transactions';
   ngOnInit() {
-
-    // this.loginService.isAuthenticated$().subscribe(authenticated => {
-    // if (authenticated) {
       this.getTransactionsWithShares();
-  //     console.log('Authentificated');
-  //     this.router.navigate(['/']);
-  //   } else {
-  //     console.log('Fail')
-  //     // Handle unauthenticated state, for example, redirect to the login page
-  //     this.router.navigate(['/login']);
-  //   }
-  // });
-
 }
   
   
@@ -88,8 +76,6 @@ import { LoginService } from "../login/login.service";
   public onAddTransaction(addForm: NgForm): void {
     const empId = addForm.value.empId;
     const secId = addForm.value.secId;
-
-
   this.transactionService.addTransaction(addForm.value, empId, secId).subscribe(
     (response: Transaction) => {
       console.log(response);

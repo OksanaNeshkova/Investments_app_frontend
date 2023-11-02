@@ -18,8 +18,27 @@
   </div>
 </nav>
 
-<p>Welcome! You are authenticated!</p>
-<p>Guess what?! You passed the authentication!</p>
+<ng-container *ngIf="shareBalances.length > 0; else showLoginMessage">
+  <h2>Portfolio</h2>
+  <table class="table no-wrap user-table mb-0">
+    <thead>
+      <tr>
+        <th scope="col" class="border-0 text-uppercase font-medium">#</th>
+        <th scope="col" class="border-0 text-uppercase font-medium">Share Name</th>
+        <th scope="col" class="border-0 text-uppercase font-medium">ISIN</th>
+        <th scope="col" class="border-0 text-uppercase font-medium">Balance</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let shareBalance of shareBalances; let i = index">
+        <td class="pl-2">{{ i + 1 }}</td>
+        <td>{{ shareBalance.shareName }}</td>
+        <td>{{ shareBalance.isin }}</td>
+        <td>{{ shareBalance.balance }}</td>
+      </tr>
+    </tbody>
+  </table>
+</ng-container>
 
 <ng-template #showLoginMessage>
 
