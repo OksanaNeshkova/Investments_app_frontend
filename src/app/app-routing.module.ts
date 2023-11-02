@@ -4,20 +4,18 @@ import { TransactionComponent } from './transaction/transaction.component';
 import { EmployeeComponent } from './employee/employee.component';
 import { ShareComponent } from './share/share.component';
 import { LoginComponent } from './login/login.component';
+import { HomeComponent } from './home/home.component';
 
 
-// import { AboutComponent } from './about/about.component';
-// import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   { path: '', redirectTo: "login",pathMatch:"full" }, 
-  { path: 'login', component: LoginComponent }, 
+  { path: 'login', component: LoginComponent },
+  { path: 'employee', component: EmployeeComponent }, 
   { path: 'transaction', component: TransactionComponent },
-  { path: 'employee', component: EmployeeComponent },
   { path: 'share', component: ShareComponent }
-//   { path: 'about', component: AboutComponent },
-//   { path: 'login', component: LoginComponent },
-  // Add more routes for other components as needed
+  // { path: '/home', component: HomeComponent }
+
 ];
 
 @NgModule({

@@ -18,6 +18,8 @@ import { BehaviorSubject, Observable, catchError, tap } from "rxjs";
         const authToken = localStorage.getItem(this.authTokenKey);
         if (authToken) {
           this.isAuthenticated.next(true);
+          console.log("got the token");
+          console.log(authToken);
         }
       }
     
@@ -27,13 +29,18 @@ import { BehaviorSubject, Observable, catchError, tap } from "rxjs";
           password: password
         };
     
-        const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Basic ' + btoa(`${email}:${password}`) });
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json'});
     
         return this.http.post(this.loginUrl, body, { headers: headers, responseType: 'text' })
           .pipe(
             tap(token => {
               // Save the token in localStorage
               localStorage.setItem(this.authTokenKey, token);
+              console.log(token);
+              console.log("token is saved to localstorage");
+              if(!token){
+                console.log("token is undefined or null")
+              }
               this.isAuthenticated.next(true);
             }),
             catchError(error => {
@@ -50,5 +57,12 @@ import { BehaviorSubject, Observable, catchError, tap } from "rxjs";
     
       isAuthenticated$(): Observable<boolean> {
         return this.isAuthenticated.asObservable();
+      }
+
+      getAuthToken(): string | null {
+        console.log(localStorage.getItem(this.authTokenKey));
+        console.log("token retrieved")
+        return localStorage.getItem(this.authTokenKey);
+        
       }
   }

@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable, catchError, throwError } from "rxjs";
 import { environment } from "src/environments/environments";
+import { LoginService } from "./login/login.service";
 
 @Injectable({
     providedIn: 'root'
@@ -10,14 +11,14 @@ import { environment } from "src/environments/environments";
 
   export class AuthInterceptor implements HttpInterceptor{
 
-    constructor(private router: Router) {}
+    constructor(private router: Router, private loginService: LoginService) {}
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-      const token = localStorage.getItem('auth-token'); // Get the access token from storage
+      const token = this.loginService.getAuthToken(); // Get the access token from storage
       if (token) {
         req = req.clone({
           setHeaders: {
-            Authorization: `Basic ${token}`
+            Authorization: `Bearer ${token}`,
           }
         });
       }

@@ -12,13 +12,15 @@ import { LoginComponent } from './login/login.component';
 import { FormsModule } from '@angular/forms';
 import { ShareComponent } from './share/share.component';
 import { EmployeeService } from './employee/employee.service';
+import { HomeComponent } from './home/home.component';
 @NgModule({
   declarations: [
     AppComponent,
     TransactionComponent,
     EmployeeComponent,
     ShareComponent,
-    LoginComponent
+    LoginComponent,
+    // HomeComponent
   ],
   imports: [
     BrowserModule,

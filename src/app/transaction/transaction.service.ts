@@ -13,20 +13,9 @@ export class TransactionService {
     constructor(private http: HttpClient) { }
 
     public getAllTransactions(): Observable<Transaction[]> {
-        const authToken = localStorage.getItem('auth-token');
-        if (!authToken) {
-            // Handle token not found, redirect to login page or handle as needed.
-            console.log("token not found")
-        }
-   
-        const headers = new HttpHeaders({
-            'Authorization': 'Basic ' + authToken
-        });
-   
-        return this.http.get<Transaction[]>(`${this.apiServerUrl}/transaction/all`, { headers: headers });
+        return this.http.get<Transaction[]>(`${this.apiServerUrl}/transaction/all`);
    }
-
-
+   
     public addTransaction(transaction: Transaction, empId: number, secId: number): Observable<Transaction> {
         const params = new HttpParams()
           .set('empId', empId.toString())

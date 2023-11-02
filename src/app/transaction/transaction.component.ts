@@ -9,6 +9,7 @@ import { ShareService } from "../share/share.service";
 import { Share } from "../share/share";
 import { Employee } from "../employee/employee";
 import { EmployeeService } from "../employee/employee.service";
+import { LoginService } from "../login/login.service";
 
 @Component({
     selector: 'app-transaction',
@@ -21,41 +22,31 @@ import { EmployeeService } from "../employee/employee.service";
   public editTransaction:Transaction | undefined | null;
   public deleteTransaction:Transaction | undefined | null;
   public searchKey: string = '';
-  private searchTermSubject = new Subject<string>();
 
-  constructor(private transactionService: TransactionService,private router: Router,private shareService:ShareService, private employeeService:EmployeeService) {}
+  constructor(private transactionService: TransactionService,private router: Router,private shareService:ShareService, private employeeService:EmployeeService, private loginService: LoginService) {}
 
   title = 'Transactions';
   ngOnInit() {
-    this.setupSearchDebouncing();
-    // this.getTransactions();
-    this.getTransactionsWithShares();
-  }
-  private setupSearchDebouncing(): void {
-    this.searchTermSubject.pipe(debounceTime(300)).subscribe(() => {
-      this.getTransactionsWithShares();
-    });
-  }
 
-  public onSearchChange(): void {
-    this.searchTermSubject.next(this.searchKey);
-  }
+    // this.loginService.isAuthenticated$().subscribe(authenticated => {
+    // if (authenticated) {
+      this.getTransactionsWithShares();
+  //     console.log('Authentificated');
+  //     this.router.navigate(['/']);
+  //   } else {
+  //     console.log('Fail')
+  //     // Handle unauthenticated state, for example, redirect to the login page
+  //     this.router.navigate(['/login']);
+  //   }
+  // });
+
+}
+  
   
   goToTransactions(): void {
     this.router.navigate(['/transaction']); // Navigate to the '/transaction' route
   }
 
-  // public getTransactions(): void {
-  //   this.transactionService.getAllTransactions().subscribe(
-  //     (response: Transaction[]) => {
-  //       this.transactions = response;
-  //       console.log(this.transactions);
-  //     },
-  //     (error: HttpErrorResponse) => {
-  //       alert(error.message)
-  //     }
-  //   )
-  // }
 
   public getTransactionsWithShares(): void {
     this.transactionService.getAllTransactions().subscribe(
@@ -170,6 +161,7 @@ import { EmployeeService } from "../employee/employee.service";
     const results: Transaction[] = [];
   
     for (const transaction of this.transactions) {
+
       if (
         transaction.share.isin.toLowerCase().includes(lowerCaseKey) ||
         transaction.volume.toString().includes(this.searchKey) ||
