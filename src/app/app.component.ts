@@ -14,4 +14,6 @@ export class AppComponent {
 
     title = 'InvestmentsApp';
 
+    
+
     }

@@ -8,12 +8,14 @@ import { HomeComponent } from './home/home.component';
 
 
 
+
 const routes: Routes = [
   { path: '', redirectTo: "login",pathMatch:"full" }, 
   { path: 'login', component: LoginComponent },
   { path: 'employee', component: EmployeeComponent }, 
   { path: 'transaction', component: TransactionComponent },
-  { path: 'share', component: ShareComponent }
+  { path: 'share', component: ShareComponent },
+
   // { path: '/home', component: HomeComponent }
 
 ];

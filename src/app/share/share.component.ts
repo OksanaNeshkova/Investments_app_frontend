@@ -7,6 +7,7 @@ import { NgFor } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { LoginService } from '../login/login.service';
 @Component({
     selector: 'app-share',
     templateUrl: './share.component.html',
@@ -15,7 +16,7 @@ import { FormsModule } from '@angular/forms';
 export class ShareComponent implements OnInit {
     public shares: Share[] | undefined;
     public editShare: Share | undefined | null;
-    constructor(private shareService: ShareService, private router: Router) { }
+    constructor(private shareService: ShareService, private router: Router, private loginService: LoginService) { }
     ngOnInit() {
         this.getAllShares();
     }
@@ -33,6 +34,10 @@ export class ShareComponent implements OnInit {
             }
         )
     }
+
+    logout(){
+        this.loginService.logout();
+      }
     //Method to handle the addition of a new share
     public onAddShare(addForm: NgForm): void {
         this.shareService.addShares(addForm.value).subscribe(
