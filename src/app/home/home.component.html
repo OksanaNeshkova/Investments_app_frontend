@@ -1,1 +1,26 @@
-<p>Guess what?! Tou passed the authentication!</p>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" style="color:white;">Home</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse justify-content-between" id="navbarColor02">
+    <form class="form-inline my-2 my-lg-0 ml-auto">
+      <input
+        type="search"
+        name="key"
+        id="searchName"
+        class="form-control mr-sm-2"
+        placeholder="Search something..."
+        required
+      >
+    </form>
+    <button class="btn btn-outline-light my-2 my-sm-0" (click)="logout()">Logout</button>
+  </div>
+</nav>
+
+<p>Welcome! You are authenticated!</p>
+<p>Guess what?! You passed the authentication!</p>
+
+<ng-template #showLoginMessage>
+
+</ng-template>

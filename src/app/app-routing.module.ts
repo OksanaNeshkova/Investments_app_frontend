@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'transaction', component: TransactionComponent },
   { path: 'share', component: ShareComponent },
 
-  // { path: '/home', component: HomeComponent }
+  { path: 'home', component: HomeComponent }
 
 ];
 

@@ -20,9 +20,8 @@ import { HomeComponent } from './home/home.component';
     TransactionComponent,
     EmployeeComponent,
     ShareComponent,
-    LoginComponent
-
-    // HomeComponent
+    LoginComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
