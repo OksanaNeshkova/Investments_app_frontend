@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
 import { BehaviorSubject, Observable, catchError, tap } from "rxjs";
 
 @Injectable({
@@ -11,7 +12,7 @@ import { BehaviorSubject, Observable, catchError, tap } from "rxjs";
     private authTokenKey = 'auth-token';
     private loginUrl = 'http://localhost:8080/login';
 
-      constructor(private http: HttpClient) { 
+      constructor(private http: HttpClient,private router: Router) { 
         this.checkTokenInLocalStorage()
       }
       private checkTokenInLocalStorage() {
@@ -53,6 +54,7 @@ import { BehaviorSubject, Observable, catchError, tap } from "rxjs";
         // Remove token from localStorage and update authentication status
         localStorage.removeItem(this.authTokenKey);
         this.isAuthenticated.next(false);
+        this.router.navigate(['/login']);
       }
     
       isAuthenticated$(): Observable<boolean> {

@@ -6,6 +6,7 @@ import { NgFor } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { LoginService } from '../login/login.service';
 
 
 
@@ -20,7 +21,7 @@ export class EmployeeComponent implements OnInit {
     public editEmployee: Employee | undefined | null;
     public deleteEmployee: Employee | undefined | null;
 
-    constructor(private employeeService: EmployeeService, private router: Router) { }
+    constructor(private employeeService: EmployeeService, private router: Router,  private loginService: LoginService) { }
 
     navigateToSharePage() {
         // You can use the Angular Router to navigate to the "share" page
@@ -32,7 +33,9 @@ export class EmployeeComponent implements OnInit {
         this.getAllEmployees();
     }
 
-
+    logout(){
+        this.loginService.logout();
+      }
 
     goToEmployee(): void {
         this.router.navigate(['/employee']); // Navigate to the '/employee' route

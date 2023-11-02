@@ -12,6 +12,7 @@
             <input type="search" (ngModelChange)="searchShares(key.value)" #key="ngModel" ngModel name="key"
                 id="searchName" class="form-control mr-sm-2" placeholder="Search shares..." required>
         </form>
+        <button (click)="logout()">Logout</button>
     </div>
 </nav>
 <!--Get all share-->

@@ -47,6 +47,9 @@ import { LoginService } from "../login/login.service";
     this.router.navigate(['/transaction']); // Navigate to the '/transaction' route
   }
 
+  logout(){
+    this.loginService.logout();
+  }
 
   public getTransactionsWithShares(): void {
     this.transactionService.getAllTransactions().subscribe(
