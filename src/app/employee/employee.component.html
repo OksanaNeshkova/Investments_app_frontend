@@ -64,7 +64,8 @@
                                     <h5 class="font-medium mb-0">{{employee?.phone}}</h5>
                                 </td>
                                 <td>
-                                    <h5 class="font-medium mb-0">{{employee?.role}}</h5>
+                                    <h5 *ngIf="employee.role == 'ROLE_ADMIN'" class="font-medium mb-0">ADMIN</h5>
+                                    <h5 *ngIf="employee.role == 'ROLE_USER'" class="font-medium mb-0">USER</h5>
                                 </td>
                                 <td>
                                     <button (click)="navigateToSharePage()"
