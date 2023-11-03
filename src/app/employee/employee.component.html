@@ -2,6 +2,27 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
+    <a class="navbar-brand" style="color: white;" [routerLink]="['/home']">Home</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
+        aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" style="color: white;" [routerLink]="['/employee']">Employees</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
+        aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" style="color: white;" [routerLink]="['/share']">Shares</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
+        aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" style="color: white;" [routerLink]="['/transaction']">Transactions</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
+        aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
     <div class="collapse navbar-collapse" id="navbarColor02">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
@@ -170,35 +191,43 @@
                 <form #editForm="ngForm">
                     <div class="form-group">
                         <label for="firstName">First Name</label>
-                        <input type="text" ngModel="{{editEmployee?.firstName}}" name="firstName" class="form-control" id="firstName" placeholder="First Name" required>
+                        <input type="text" ngModel="{{editEmployee?.firstName}}" name="firstName" class="form-control"
+                            id="firstName" placeholder="First Name" required>
                     </div>
                     <div class="form-group">
                         <label for="lastName">Last Name</label>
-                        <input type="text" ngModel="{{editEmployee?.lastName}}" name="lastName" class="form-control" id="lastName" placeholder="Last Name" required>
+                        <input type="text" ngModel="{{editEmployee?.lastName}}" name="lastName" class="form-control"
+                            id="lastName" placeholder="Last Name" required>
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" ngModel="{{editEmployee?.password}}" name="password" class="form-control" id="password" placeholder="Password" required>
+                        <input type="password" ngModel="{{editEmployee?.password}}" name="password" class="form-control"
+                            id="password" placeholder="Password" required>
                     </div>
                     <div class="form-group">
                         <label for="personalCode">Personal Code</label>
-                        <input type="number" ngModel="{{editEmployee?.personalCode}}" name="personalCode" class="form-control" id="personalCode" placeholder="Personal Code" required>
+                        <input type="number" ngModel="{{editEmployee?.personalCode}}" name="personalCode"
+                            class="form-control" id="personalCode" placeholder="Personal Code" required>
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>/
-                        <input type="email" ngModel="{{editEmployee?.email}}" name="email" class="form-control" id="email" placeholder="Email" required>
+                        <input type="email" ngModel="{{editEmployee?.email}}" name="email" class="form-control"
+                            id="email" placeholder="Email" required>
                     </div>
                     <div class="form-group">
                         <label for="address">Address</label>
-                        <input type="text" ngModel="{{editEmployee?.address}}" name="address" class="form-control" id="address" placeholder="Address" required>
+                        <input type="text" ngModel="{{editEmployee?.address}}" name="address" class="form-control"
+                            id="address" placeholder="Address" required>
                     </div>
                     <div class="form-group">
                         <label for="phone">Phone</label>
-                        <input type="text" ngModel="{{editEmployee?.phone}}" name="phone" class="form-control" id="phone" placeholder="Phone" required>
+                        <input type="text" ngModel="{{editEmployee?.phone}}" name="phone" class="form-control"
+                            id="phone" placeholder="Phone" required>
                     </div>
                     <div class="form-group">
                         <label for="role">Role</label>
-                        <input type="text" ngModel="{{editEmployee?.role}}" name="role" class="form-control" id="role" placeholder="Role" required>
+                        <input type="text" ngModel="{{editEmployee?.role}}" name="role" class="form-control" id="role"
+                            placeholder="Role" required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" id="closeEditModalBtn" data-dismiss="modal"
