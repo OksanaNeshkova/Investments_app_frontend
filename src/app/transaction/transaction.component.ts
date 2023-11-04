@@ -51,6 +51,8 @@ import { LoginService } from "../login/login.service";
       }
     );
   }
+
+  
   private attachShareInfoToTransactions(): void {
     if (this.transactions) {
       this.transactions.forEach(transaction => {

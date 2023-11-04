@@ -53,48 +53,44 @@
                     <table class="table no-wrap user-table mb-0">
                         <thead>
                             <tr>
-                                <th scope="col" class="border-0 text-uppercase font-medium">#</th>
-                                <th scope="col" class="border-0 text-uppercase font-medium">First Name</th>
-                                <th scope="col" class="border-0 text-uppercase font-medium">Last Name</th>
-                                <th scope="col" class="border-0 text-uppercase font-medium">Personal Code</th>
-                                <th scope="col" class="border-0 text-uppercase font-medium">Email</th>
-                                <th scope="col" class="border-0 text-uppercase font-medium">Address</th>
-                                <th scope="col" class="border-0 text-uppercase font-medium">Phone</th>
-                                <th scope="col" class="border-0 text-uppercase font-medium">Role</th>
-                                <th scope="col" class="border-0 text-uppercase font-medium">Actions</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium text-center">#</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium text-center">First Name</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium text-center">Last Name</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium text-center">Personal Code</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium text-center">Email</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium text-center">Address</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium text-center">Phone</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium text-center">Role</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let employee of employees">
-                                <td class="pl-2">{{employee?.id}}</td>
-                                <td>
-                                    <h5 class="font-medium mb-0">{{employee?.firstName}}</h5>
+                                <td class="text-center">{{employee?.id}}</td>
+                                <td class="text-center">
+                                  <h5 class="font-medium mb-0">{{employee?.firstName}}</h5>
                                 </td>
-                                <td>
-                                    <h5 class="font-medium mb-0">{{employee?.lastName}}</h5>
+                                <td class="text-center">
+                                  <h5 class="font-medium mb-0">{{employee?.lastName}}</h5>
                                 </td>
-                                <td>
-                                    <h5 class="font-medium mb-0">{{employee?.personalCode}}</h5>
+                                <td class="text-center">
+                                  <h5 class="font-medium mb-0">{{employee?.personalCode}}</h5>
                                 </td>
-                                <td>
-                                    <h5 class="font-medium mb-0">{{employee?.email}}</h5>
+                                <td class="text-center">
+                                  <h5 class="font-medium mb-0">{{employee?.email}}</h5>
                                 </td>
-                                <td>
-                                    <h5 class="font-medium mb-0">{{employee?.address}}</h5>
+                                <td class="text-center">
+                                  <h5 class="font-medium mb-0">{{employee?.address}}</h5>
                                 </td>
-                                <td>
-                                    <h5 class="font-medium mb-0">{{employee?.phone}}</h5>
+                                <td class="text-center">
+                                  <h5 class="font-medium mb-0">{{employee?.phone}}</h5>
                                 </td>
-                                <td>
-                                    <h5 *ngIf="employee.role == 'ROLE_ADMIN'" class="font-medium mb-0">ADMIN</h5>
-                                    <h5 *ngIf="employee.role == 'ROLE_USER'" class="font-medium mb-0">USER</h5>
+                                <td class="text-center">
+                                  <h5 *ngIf="employee.role == 'ROLE_ADMIN'" class="font-medium mb-0">ADMIN</h5>
+                                  <h5 *ngIf="employee.role == 'ROLE_USER'" class="font-medium mb-0">USER</h5>
                                 </td>
-                                <td>
-                                    <button (click)="navigateToSharePage()"
-                                        class="btn btn-outline-info btn-circle btn-lg-2 btn-circle ml-0">
-                                        <img src="https://icons.iconarchive.com/icons/fasticon/hand-draw-iphone/128/Stocks-icon.png"
-                                            width="30" height="30">
-                                    </button>
+                                
+                                <td class="text-center">
                                     <button (click)="onOpenModal(employee, 'edit')"
                                         class="btn btn-outline-info btn-circle btn-lg btn-circle ml-2"><i
                                             class="fa fa-edit"></i></button>

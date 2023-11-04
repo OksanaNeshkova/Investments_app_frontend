@@ -97,8 +97,7 @@ export class ShareComponent implements OnInit {
                 || share.shareName.toLowerCase().indexOf(key.toLowerCase()) !== -1
                 || share.isin.toLowerCase().indexOf(key.toLowerCase()) !== -1
                 || share.country.toLowerCase().indexOf(key.toLowerCase()) !== -1
-                || share.economicField.toLowerCase().indexOf(key.toLowerCase()) !== -1
-                || share.transaction?.toString().includes(key)) {
+                || share.economicField.toLowerCase().indexOf(key.toLowerCase()) !== -1) {
                 results.push(share); // Add the matching shares to the results array
             }
         }
