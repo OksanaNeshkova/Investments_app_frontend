@@ -41,6 +41,9 @@
         <th scope="col" class="border-0 text-uppercase font-medium">Balance</th>
         <th scope="col" class="border-0 text-uppercase font-medium">Currency</th>
         <th scope="col" class="border-0 text-uppercase font-medium">Current Price</th>
+        <th scope="col" class="border-0 text-uppercase font-medium">Book Value</th>
+        <th scope="col" class="border-0 text-uppercase font-medium">Current Market Value</th>
+        <th scope="col" class="border-0 text-uppercase font-medium">Total Return (%)</th>
         
       </tr>
     </thead>
@@ -52,6 +55,12 @@
         <td>{{ shareBalance.balance }}</td>
         <td>{{ shareBalance.currency }}</td>
         <td>{{ shareBalance.currentPrice }}</td>
+        <td>{{ getBookValue(shareBalance) }}</td>
+        <td>{{ getCurrentMarketValue(shareBalance) }}</td>
+        <td [ngClass]="{'text-danger': getTotalReturnPercentage(shareBalance) < 0,
+        'text-success': getTotalReturnPercentage(shareBalance) >= 0}">
+          {{ getTotalReturnPercentage(shareBalance) | number:'1.2-2' }}
+        </td>
       </tr>
     </tbody>
   </table>

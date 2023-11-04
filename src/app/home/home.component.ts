@@ -17,6 +17,26 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.loadShareBalances()
+    
+  }
+  
+  getRowClass(shareBalance: Balance): string {
+    const totalReturnPercentage = this.getTotalReturnPercentage(shareBalance);
+    return totalReturnPercentage >= 0 ? 'text-success' : 'text-danger';
+  }
+  
+  getBookValue(shareBalance: Balance): number {
+    return shareBalance.balance * shareBalance.bookPrice;
+  }
+  
+  getCurrentMarketValue(shareBalance: Balance): number {
+    return shareBalance.balance * shareBalance.currentPrice;
+  }
+  
+  getTotalReturnPercentage(shareBalance: Balance): number {
+    const bookValue = this.getBookValue(shareBalance);
+    const marketValue = this.getCurrentMarketValue(shareBalance);
+    return ((marketValue / bookValue - 1) * 100);
   }
 
   loadShareBalances() {

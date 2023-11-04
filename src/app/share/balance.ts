@@ -1,7 +1,8 @@
 export interface Balance{
     symbol:string;
     shareName:string;
-    balance:bigint;
+    balance:number;
     currency:string;
     currentPrice:number;
+    bookPrice:number;
 }
