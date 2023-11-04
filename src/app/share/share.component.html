@@ -49,41 +49,44 @@
                     <table class="table no-wrap user-table mb-0">
                         <thead>
                             <tr>
-                                <th scope="col" class="border-0 text-uppercase font-medium">#</th>
-                                <th scope="col" class="border-0 text-uppercase font-medium">Company Name</th>
-                                <th scope="col" class="border-0 text-uppercase font-medium">Share Name</th>
-                                <th scope="col" class="border-0 text-uppercase font-medium">Symbol</th>
-                                <th scope="col" class="border-0 text-uppercase font-medium">Currency</th>
-                                <th scope="col" class="border-0 text-uppercase font-medium">Country</th>
-                                <th scope="col" class="border-0 text-uppercase font-medium">Economic Field</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium text-center">#</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium text-center">Symbol</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium text-center">Currency</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium text-center">Share Name</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium text-center">Company Name</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium text-center">Country</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium text-center">Economic Field</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium text-center">Actions</th>
+
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let share of shares">
-                                <td class="pl-2">{{share?.id}}</td>
-                                <td>
+                                <td class="pl-2" style="text-align: center;">{{share?.id}}</td>
+                                <td style="text-align: center;">
                                     <h5 class="font-medium mb-0">{{share?.symbol}}</h5>
                                 </td>
-                                <td>
+                                <td style="text-align: center;">
                                     <h5 class="font-medium mb-0">{{share?.currency}}</h5>
                                 </td>
-                                <td>
-                                    <h5 class="font-medium mb-0">{{share?.companyName}}</h5>
-                                </td>
-                                <td>
+                                <td style="text-align: center;">
                                     <h5 class="font-medium mb-0">{{share?.shareName}}</h5>
                                 </td>
-                                <td>
+                                <td style="text-align: center;">
+                                    <h5 class="font-medium mb-0">{{share?.companyName}}</h5>
+                                </td>
+                                <td style="text-align: center;">
                                     <h5 class="font-medium mb-0">{{share?.country}}</h5>
                                 </td>
-                                <td>
+                                <td style="text-align: center;">
                                     <h5 class="font-medium mb-0">{{share?.economicField}}</h5>
                                 </td>
-                                <td>
+                                <td style="text-align: center;">
                                     <button (click)="onOpenModal(share, 'edit')"
-                                        class="btn btn-outline-info btn-circle btn-lg btn-circle ml-0"><i
+                                        class="btn btn-outline-info btn-circle btn-lg btn-circle ml-0" ><i
                                             class="fa fa-edit"></i></button>
                                 </td>
+                                
                             </tr>
                         </tbody>
                     </table>

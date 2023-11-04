@@ -22,9 +22,11 @@
    </button>
    <div class="collapse navbar-collapse" id="navbarColor02">
       <ul class="navbar-nav mr-auto">
-         <li class="nav-item active">
-            <a class="btn btn-primary" (click)="onOpenModal(null, 'add')">Add Transaction <span class="sr-only">(current)</span></a>
-         </li>
+          <li class="nav-item active">
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addTransactionModal">
+                  Add Transaction
+              </button>
+          </li>
       </ul>
   
        <form class="form-inline my-2 my-lg-0">
@@ -42,29 +44,65 @@
        <button (click)="logout()">Logout</button>
     </div>
   </nav>
+  <!--Get all transactions-->  
   <div class="container" id="main-container">
-  <div class="row">
-    <div *ngFor="let transaction of transactions" class="col-md-6 col-xl-3">
-       <div class="card m-b-30">
-             <div class="col-12 card-title align-self-center mb-0">
-                <h5>{{transaction?.type}}</h5>
-                <p class="m-0">Volume:{{transaction?.volume}}</p>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item"><i class="fa fa-phone float-right"></i>Trade date : {{transaction?.date}}</li>
-            <li class="list-group-item"><i class="fa fa-phone float-right"></i>Symbol : {{transaction?.share?.symbol}}</li>
-            <li class="list-group-item"><i class="fa fa-phone float-right"></i>Currency : {{transaction?.share?.currency}}</li>
-             <li class="list-group-item"><i class="fa fa-envelope float-right"></i>Price :{{transaction?.price}}</li>
-             <li class="list-group-item"><i class="fa fa-phone float-right"></i>Employee Id : {{transaction?.employee?.id}}</li>
-          </ul>
-          <div class="card-body">
-             <div class="float-right btn-group btn-group-sm">
-                <a (click)="onOpenModal(transaction, 'edit')" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
-                <a (click)="onOpenModal(transaction, 'delete')" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete"><i class="fa fa-times"></i></a>
-             </div>
-          </div>
+   <div class="row">
+       <div class="col-md-12">
+           <div class="card">
+               <div class="card-body">
+                   <h5 class="card-title text-uppercase mb-0">Manage Transactions</h5>
+               </div>
+               <div class="table-responsive">
+                  <table class="table no-wrap user-table mb-0">
+                    <thead>
+                      <tr>
+                        <th scope="col" class="border-0 text-uppercase font-medium text-center">Trade date</th>
+                        <th scope="col" class="border-0 text-uppercase font-medium text-center">Employee Id</th>
+                        <th scope="col" class="border-0 text-uppercase font-medium text-center">Transaction Type</th>
+                        <th scope="col" class="border-0 text-uppercase font-medium text-center">Volume</th>
+                        <th scope="col" class="border-0 text-uppercase font-medium text-center">Currency</th>
+                        <th scope="col" class="border-0 text-uppercase font-medium text-center">Share Symbol</th>
+                        <th scope="col" class="border-0 text-uppercase font-medium text-center">Price</th>
+                        <th scope="col" class="border-0 text-uppercase font-medium text-center">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let transaction of transactions">
+                        <td class="pl-2 text-center">{{ transaction?.date }}</td>
+                        <td class="pl-2 text-center">{{ transaction?.employee?.id }}</td>
+                        <td class="text-center">
+                          <h5 class="font-medium mb-0">{{ transaction?.type }}</h5>
+                        </td>
+                        <td class="text-center">
+                          <h5 class="font-medium mb-0">{{ transaction?.volume }}</h5>
+                        </td>
+                        <td class="text-center">
+                           <h5 class="font-medium mb-0">{{ transaction?.share?.currency }}</h5>
+                         </td>
+                        <td class="text-center">
+                          <h5 class="font-medium mb-0">{{ transaction?.share?.symbol }}</h5>
+                        </td>
+                        <td class="text-center">
+                          <h5 class="font-medium mb-0">{{ transaction?.price }}</h5>
+                        </td>
+                        <td class="text-center">
+                          <button (click)="onOpenModal(transaction, 'edit')" class="btn btn-outline-info btn-circle btn-lg btn-circle ml-2">
+                            <i class="fa fa-edit"></i>
+                          </button>
+                          <button (click)="onOpenModal(transaction, 'delete')" class="btn btn-outline-info btn-circle btn-lg btn-circle ml-2">
+                            <i class="fa fa-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>                
+           </div>
+       </div>
+   </div>
+</div>
 
-    </div>
-  </div>
+
   <!-- Add transaction Modal -->
   <div class="modal fade" id="addTransactionModal" tabindex="-1" role="dialog" aria-labelledby="addTransactionModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -137,10 +175,6 @@
                    <label for="price">Trade price</label>
                    <input type="number" ngModel="{{editTransaction?.price}}" name="price" class="form-control" id="price" placeholder="Trade price">
                 </div>
-                <div class="form-group">
-                   <label for="currency">Currency</label>
-                   <input type="text" ngModel="{{editTransaction?.currency}}" name="currency" class="form-control" id="currency" placeholder="Currency">
-                </div>
                 <div class="modal-footer">
                    <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Close</button>
                    <button (click)="onUpdateTransaction(editForm.value)" data-dismiss="modal" class="btn btn-primary" >Save changes</button>
@@ -170,7 +204,7 @@
        </div>
     </div>
   </div>
-  </div>
+  
   <!-- Notification for no transactions -->
   <div *ngIf="transactions?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
   <div class="alert alert-info" role="alert">
