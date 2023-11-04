@@ -16,10 +16,10 @@ export class TransactionService {
         return this.http.get<Transaction[]>(`${this.apiServerUrl}/transaction/all`);
    }
    
-    public addTransaction(transaction: Transaction, empId: number, secId: number): Observable<Transaction> {
+    public addTransaction(transaction: Transaction, empId: number, secId: string): Observable<Transaction> {
         const params = new HttpParams()
           .set('empId', empId.toString())
-          .set('secId', secId.toString());
+          .set('secId', secId);
     
         return this.http.post<Transaction>(`${this.apiServerUrl}/transaction/add`, transaction, { params: params });
       }

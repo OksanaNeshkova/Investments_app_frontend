@@ -3,4 +3,5 @@ export interface Balance{
     shareName:string;
     balance:bigint;
     currency:string;
+    currentPrice:number;
 }
