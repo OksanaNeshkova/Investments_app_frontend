@@ -1,5 +1,6 @@
 export interface Balance{
-    isin:string;
+    symbol:string;
     shareName:string;
     balance:bigint;
+    currency:string;
 }

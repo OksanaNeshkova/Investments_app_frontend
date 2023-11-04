@@ -50,9 +50,10 @@
                 <h5>{{transaction?.type}}</h5>
                 <p class="m-0">Volume:{{transaction?.volume}}</p>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item"><i class="fa fa-phone float-right"></i>ISIN : {{transaction?.share?.isin}}</li>
+            <li class="list-group-item"><i class="fa fa-phone float-right"></i>Trade date : {{transaction?.date}}</li>
+            <li class="list-group-item"><i class="fa fa-phone float-right"></i>Symbol : {{transaction?.share?.symbol}}</li>
+            <li class="list-group-item"><i class="fa fa-phone float-right"></i>Currency : {{transaction?.share?.currency}}</li>
              <li class="list-group-item"><i class="fa fa-envelope float-right"></i>Price :{{transaction?.price}}</li>
-             <li class="list-group-item"><i class="fa fa-phone float-right"></i>Currency : {{transaction?.currency}}</li>
              <li class="list-group-item"><i class="fa fa-phone float-right"></i>Employee Id : {{transaction?.employee?.id}}</li>
           </ul>
           <div class="card-body">
@@ -81,10 +82,6 @@
                <input type="text" ngModel name="type" class="form-control" id="type" placeholder="Transaction type" required>
             </div>
             <div class="form-group">
-               <label for="currency">Currency</label>
-               <input type="text" ngModel name="currency" class="form-control" id="currency" placeholder="Currency" required>
-            </div>
-            <div class="form-group">
                <label for="fx">FX</label>
                <input type="number" ngModel name="fx" class="form-control" id="fx" placeholder="Fx" required>
             </div>
@@ -101,8 +98,8 @@
                <input type="number" ngModel name="empId" class="form-control" id="empId" placeholder="Employee ID" required>
            </div>
            <div class="form-group">
-               <label for="secId">Security ID</label>
-               <input type="number" ngModel name="secId" class="form-control" id="secId" placeholder="Security ID" required>
+               <label for="secId">Share symbol</label>
+               <input type="number" ngModel name="symbol" class="form-control" id="symbol" placeholder="Share symbol" required>
            </div>
             <div class="modal-footer">
                <button type="button" id="add-transaction-form" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -129,9 +126,9 @@
                     <label for="volume">Transaction type</label>
                    <input type="text" ngModel="{{editTransaction?.type}}" name="type" class="form-control" id="type" placeholder="Transaction type">
                 </div>
-                <input type="hidden" ngModel="{{editTransaction?.id}}" name="id" class="form-control" id="id" placeholder="Email">
-                <input type="hidden" ngModel="{{editTransaction?.date}}" name="date" class="form-control" id="date" placeholder="Email">
-                <input type="hidden" ngModel="{{editTransaction?.fx}}" name="fx" class="form-control" id="fx" placeholder="Email">
+                <input type="hidden" ngModel="{{editTransaction?.id}}" name="id" class="form-control" id="id" placeholder="Id">
+                <input type="hidden" ngModel="{{editTransaction?.date}}" name="date" class="form-control" id="date" placeholder="Date">
+                <input type="hidden" ngModel="{{editTransaction?.fx}}" name="fx" class="form-control" id="fx" placeholder="Fx">
                 <div class="form-group">
                    <label for="volume">Trading Volume</label>
                    <input type="number" ngModel="{{editTransaction?.volume}}" name="volume" class="form-control" id="volume" placeholder="Volume">

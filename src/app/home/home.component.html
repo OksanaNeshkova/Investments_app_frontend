@@ -36,17 +36,19 @@
     <thead>
       <tr>
         <th scope="col" class="border-0 text-uppercase font-medium">#</th>
+        <th scope="col" class="border-0 text-uppercase font-medium">Symbol</th>
         <th scope="col" class="border-0 text-uppercase font-medium">Share Name</th>
-        <th scope="col" class="border-0 text-uppercase font-medium">ISIN</th>
         <th scope="col" class="border-0 text-uppercase font-medium">Balance</th>
+        <th scope="col" class="border-0 text-uppercase font-medium">Currency</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let shareBalance of shareBalances; let i = index">
         <td class="pl-2">{{ i + 1 }}</td>
+        <td>{{ shareBalance.symbol }}</td>
         <td>{{ shareBalance.shareName }}</td>
-        <td>{{ shareBalance.isin }}</td>
         <td>{{ shareBalance.balance }}</td>
+        <td>{{ shareBalance.currency }}</td>
       </tr>
     </tbody>
   </table>

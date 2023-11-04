@@ -4,7 +4,8 @@ export interface Share{
    id:number;
    companyName:string;
    shareName:string;
-   isin:string;
+   symbol:string;
+   currency:string;
    country:string;
    economicField:string;
    transaction:Transaction[];}

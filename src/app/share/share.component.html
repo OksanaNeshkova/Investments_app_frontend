@@ -52,15 +52,21 @@
                                 <th scope="col" class="border-0 text-uppercase font-medium">#</th>
                                 <th scope="col" class="border-0 text-uppercase font-medium">Company Name</th>
                                 <th scope="col" class="border-0 text-uppercase font-medium">Share Name</th>
-                                <th scope="col" class="border-0 text-uppercase font-medium">Isin</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium">Symbol</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium">Currency</th>
                                 <th scope="col" class="border-0 text-uppercase font-medium">Country</th>
                                 <th scope="col" class="border-0 text-uppercase font-medium">Economic Field</th>
-                                <th scope="col" class="border-0 text-uppercase font-medium">Transaction</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let share of shares">
                                 <td class="pl-2">{{share?.id}}</td>
+                                <td>
+                                    <h5 class="font-medium mb-0">{{share?.symbol}}</h5>
+                                </td>
+                                <td>
+                                    <h5 class="font-medium mb-0">{{share?.currency}}</h5>
+                                </td>
                                 <td>
                                     <h5 class="font-medium mb-0">{{share?.companyName}}</h5>
                                 </td>
@@ -68,16 +74,10 @@
                                     <h5 class="font-medium mb-0">{{share?.shareName}}</h5>
                                 </td>
                                 <td>
-                                    <h5 class="font-medium mb-0">{{share?.isin}}</h5>
-                                </td>
-                                <td>
                                     <h5 class="font-medium mb-0">{{share?.country}}</h5>
                                 </td>
                                 <td>
                                     <h5 class="font-medium mb-0">{{share?.economicField}}</h5>
-                                </td>
-                                <td>
-                                    <h5 class="font-medium mb-0">{{share?.transaction}}</h5>
                                 </td>
                                 <td>
                                     <button (click)="onOpenModal(share, 'edit')"
@@ -106,9 +106,14 @@
             <div class="modal-body">
                 <form #addForm="ngForm" (ngSubmit)="onAddShare(addForm)">
                     <div class="form-group">
-                        <label for="companyName">Company Name</label>
-                        <input type="text" ngModel name="companyName" class="form-control" id="companyName"
-                            placeholder="Company Name" required>
+                        <label for="symbol">Symbol</label>
+                        <input type="text" ngModel name="symbol" class="form-control" id="symbol" placeholder="Symbol"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="currency">Currency</label>
+                        <input type="text" ngModel name="currency" class="form-control" id="currency" placeholder="Currency"
+                            required>
                     </div>
                     <div class="form-group">
                         <label for="shareName">Share Name</label>
@@ -116,9 +121,9 @@
                             placeholder="Share Name" required>
                     </div>
                     <div class="form-group">
-                        <label for="isin">ISIN</label>
-                        <input type="text" ngModel name="isin" class="form-control" id="isin" placeholder="ISIN"
-                            required>
+                        <label for="companyName">Company Name</label>
+                        <input type="text" ngModel name="companyName" class="form-control" id="companyName"
+                            placeholder="Company Name" required>
                     </div>
                     <div class="form-group">
                         <label for="country">Country</label>
@@ -129,11 +134,6 @@
                         <label for="economicField">Economic Field</label>
                         <input type="text" ngModel name="economicField" class="form-control" id="economicField"
                             placeholder="Economic Field" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="transaction">Transaction</label>
-                        <input type="text" ngModel name="transaction" class="form-control" id="transaction"
-                            placeholder="Transaction" required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" id="closeEditModalBtn" data-dismiss="modal"
@@ -160,6 +160,16 @@
             <div class="modal-body">
                 <form #editForm="ngForm">
                     <div class="form-group">
+                        <label for="symbol">Symbol</label>
+                        <input type="text" ngModel="{{editShare?.symbol}}" name="symbol" class="form-control" id="symbol"
+                            placeholder="Symbol" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="currency">Currency</label>
+                        <input type="text" ngModel="{{editShare?.currency}}" name="currency" class="form-control" id="currency"
+                            placeholder="Symbol" required>
+                    </div>
+                    <div class="form-group">
                         <label for="companyName">Company Name</label>
                         <input type="text" ngModel="{{editShare?.companyName}}" name="companyName" class="form-control"
                             id="companyName" placeholder="Company Name" required>
@@ -170,11 +180,6 @@
                             id="shareName" placeholder="Share Name" required>
                     </div>
                     <div class="form-group">
-                        <label for="isin">ISIN</label>
-                        <input type="text" ngModel="{{editShare?.isin}}" name="isin" class="form-control" id="isin"
-                            placeholder="ISIN" required>
-                    </div>
-                    <div class="form-group">
                         <label for="country">Country</label>
                         <input type="text" ngModel="{{editShare?.country}}" name="country" class="form-control"
                             id="country" placeholder="Country" required>
@@ -183,11 +188,6 @@
                         <label for="economicField">Economic Field</label>/
                         <input type="text" ngModel="{{editShare?.economicField}}" name="economicField"
                             class="form-control" id="economicField" placeholder="Economic Field" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="transaction">Transaction</label>
-                        <input type="text" ngModel="{{editShare?.transaction}}" name="transaction" class="form-control"
-                            id="transaction" placeholder="Transaction" required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" id="closeEditModalBtn" data-dismiss="modal"

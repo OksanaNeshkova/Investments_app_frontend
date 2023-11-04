@@ -152,10 +152,10 @@ import { LoginService } from "../login/login.service";
     for (const transaction of this.transactions) {
 
       if (
-        transaction.share.isin.toLowerCase().includes(lowerCaseKey) ||
+        transaction.share.symbol.toLowerCase().includes(lowerCaseKey) ||
+        transaction.share.currency.toLowerCase().includes(lowerCaseKey) ||
         transaction.volume.toString().includes(this.searchKey) ||
         transaction.price.toString().includes(this.searchKey) ||
-        transaction.currency.toLowerCase().includes(lowerCaseKey) ||
         transaction.employee.firstName.toLowerCase().includes(lowerCaseKey) ||
         transaction.employee.lastName.toLowerCase().includes(lowerCaseKey)
       ) {
