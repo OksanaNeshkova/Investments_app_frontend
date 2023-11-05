@@ -58,7 +58,7 @@
         <td>{{ getBookValue(shareBalance) }}</td>
         <td>{{ getCurrentMarketValue(shareBalance) }}</td>
         <td [ngClass]="{'text-danger': getTotalReturnPercentage(shareBalance) < 0,
-        'text-success': getTotalReturnPercentage(shareBalance) >= 0}">
+                      'text-success': getTotalReturnPercentage(shareBalance) >= 0}">
           {{ getTotalReturnPercentage(shareBalance) | number:'1.2-2' }}
         </td>
       </tr>
