@@ -28,7 +28,7 @@
               </button>
           </li>
       </ul>
-       <form class="form-inline my-2 my-lg-0">
+       <form class="form-inline my-2 my-lg-0 ml-auto">
          <input
            type="search"
            [(ngModel)]="searchKey"
@@ -40,7 +40,7 @@
            required
          >
        </form>
-       <button (click)="logout()">Logout</button>
+       <button class="btn btn-outline-light my-2 my-sm-0"  (click)="logout()">Logout</button>
     </div>
   </nav>
   <!--Get all transactions-->  
@@ -69,21 +69,11 @@
                       <tr *ngFor="let transaction of transactions">
                         <td class="pl-2 text-center">{{ transaction?.date }}</td>
                         <td class="pl-2 text-center">{{ transaction?.employee?.id }}</td>
-                        <td class="text-center">
-                          <h5 class="font-medium mb-0">{{ transaction?.type }}</h5>
-                        </td>
-                        <td class="text-center">
-                          <h5 class="font-medium mb-0">{{ transaction?.volume }}</h5>
-                        </td>
-                        <td class="text-center">
-                           <h5 class="font-medium mb-0">{{ transaction?.share?.currency }}</h5>
-                         </td>
-                        <td class="text-center">
-                          <h5 class="font-medium mb-0">{{ transaction?.share?.symbol }}</h5>
-                        </td>
-                        <td class="text-center">
-                          <h5 class="font-medium mb-0">{{ transaction?.price }}</h5>
-                        </td>
+                        <td class="text-center">{{ transaction?.type }}</td>
+                        <td class="text-center">{{ transaction?.volume }}</td>
+                        <td class="text-center">{{ transaction?.share?.currency }}</td>
+                        <td class="text-center">{{ transaction?.share?.symbol }}</td>
+                        <td class="text-center">{{ transaction?.price }}</td>
                         <td class="text-center">
                           <button (click)="onOpenModal(transaction, 'edit')" class="btn btn-outline-info btn-circle btn-lg btn-circle ml-2">
                             <i class="fa fa-edit"></i>

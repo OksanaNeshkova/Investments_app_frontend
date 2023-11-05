@@ -30,11 +30,11 @@
                 </button>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
+        <form class="form-inline my-2 my-lg-0 ml-auto">
             <input type="search" (ngModelChange)="searchShares(key.value)" #key="ngModel" ngModel name="key"
                 id="searchName" class="form-control mr-sm-2" placeholder="Search shares..." required>
         </form>
-        <button (click)="logout()">Logout</button>
+        <button class="btn btn-outline-light my-2 my-sm-0" (click)="logout()">Logout</button>
     </div>
 </nav>
 <!--Get all share-->
@@ -63,24 +63,12 @@
                         <tbody>
                             <tr *ngFor="let share of shares">
                                 <td class="pl-2" style="text-align: center;">{{share?.id}}</td>
-                                <td style="text-align: center;">
-                                    <h5 class="font-medium mb-0">{{share?.symbol}}</h5>
-                                </td>
-                                <td style="text-align: center;">
-                                    <h5 class="font-medium mb-0">{{share?.currency}}</h5>
-                                </td>
-                                <td style="text-align: center;">
-                                    <h5 class="font-medium mb-0">{{share?.shareName}}</h5>
-                                </td>
-                                <td style="text-align: center;">
-                                    <h5 class="font-medium mb-0">{{share?.companyName}}</h5>
-                                </td>
-                                <td style="text-align: center;">
-                                    <h5 class="font-medium mb-0">{{share?.country}}</h5>
-                                </td>
-                                <td style="text-align: center;">
-                                    <h5 class="font-medium mb-0">{{share?.economicField}}</h5>
-                                </td>
+                                <td style="text-align: center;">{{share?.symbol}}</td>
+                                <td style="text-align: center;">{{share?.currency}}</td>
+                                <td style="text-align: center;">{{share?.shareName}}</td>
+                                <td style="text-align: center;">{{share?.companyName}}</td>
+                                <td style="text-align: center;">{{share?.country}}</td>
+                                <td style="text-align: center;">{{share?.economicField}}</td>
                                 <td style="text-align: center;">
                                     <button (click)="onOpenModal(share, 'edit')"
                                         class="btn btn-outline-info btn-circle btn-lg btn-circle ml-0" ><i

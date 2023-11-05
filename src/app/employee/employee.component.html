@@ -36,7 +36,7 @@
             <input type="search" (ngModelChange)="searchEmployees(key.value)" #key="ngModel" ngModel name="key"
                 id="searchName" class="form-control mr-sm-2" placeholder="Search employees..." required>
         </form>
-        <button (click)="logout()">Logout</button>
+        <button class="btn btn-outline-light my-2 my-sm-0" (click)="logout()">Logout</button>
     </div>
 </nav>
 
@@ -67,27 +67,15 @@
                         <tbody>
                             <tr *ngFor="let employee of employees">
                                 <td class="text-center">{{employee?.id}}</td>
+                                <td class="text-center">{{employee?.firstName}}</td>
+                                <td class="text-center">{{employee?.lastName}}</td>
+                                <td class="text-center">{{employee?.personalCode}}</td>
+                                <td class="text-center">{{employee?.email}}</td>
+                                <td class="text-center">{{employee?.address}}</td>
+                                <td class="text-center">{{employee?.phone}} </td>
                                 <td class="text-center">
-                                  <h5 class="font-medium mb-0">{{employee?.firstName}}</h5>
-                                </td>
-                                <td class="text-center">
-                                  <h5 class="font-medium mb-0">{{employee?.lastName}}</h5>
-                                </td>
-                                <td class="text-center">
-                                  <h5 class="font-medium mb-0">{{employee?.personalCode}}</h5>
-                                </td>
-                                <td class="text-center">
-                                  <h5 class="font-medium mb-0">{{employee?.email}}</h5>
-                                </td>
-                                <td class="text-center">
-                                  <h5 class="font-medium mb-0">{{employee?.address}}</h5>
-                                </td>
-                                <td class="text-center">
-                                  <h5 class="font-medium mb-0">{{employee?.phone}}</h5>
-                                </td>
-                                <td class="text-center">
-                                  <h5 *ngIf="employee.role == 'ROLE_ADMIN'" class="font-medium mb-0">ADMIN</h5>
-                                  <h5 *ngIf="employee.role == 'ROLE_USER'" class="font-medium mb-0">USER</h5>
+                                  <div *ngIf="employee.role == 'ROLE_ADMIN'" class="">ADMIN</div>
+                                  <div *ngIf="employee.role == 'ROLE_USER'" class="">USER</div>
                                 </td>
                                 
                                 <td class="text-center">
