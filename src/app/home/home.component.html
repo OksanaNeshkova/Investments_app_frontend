@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" style="color:white;">Home</a>
+  <a class="navbar-brand" style="color:white;">Portfolio</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -55,7 +55,7 @@
         <td>{{ shareBalance.balance|number:'1.0-0' }}</td>
         <td>{{ shareBalance.currency }}</td>
         <td>{{ shareBalance.currentPrice |number:'1.2-2'}}</td>
-        <td>{{ getBookValue(shareBalance)|number:'1.0-0' }}</td>
+        <td class="text-right mr-2">{{ getBookValue(shareBalance)|number:'1.0-0' }}</td>
         <td>{{ getCurrentMarketValue(shareBalance)|number:'1.0-2' }}</td>
         <td [ngClass]="{'text-danger': getTotalReturnPercentage(shareBalance) < 0, 'text-success': getTotalReturnPercentage(shareBalance) >= 0}">
           {{ formatPositiveNumber(getTotalReturnPercentage(shareBalance)) }}

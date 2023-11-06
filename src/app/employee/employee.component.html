@@ -1,8 +1,8 @@
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand navbar-dark bg-dark">
 
-    <a class="navbar-brand" style="color: white;" [routerLink]="['/home']">Home</a>
+    <a class="navbar-brand" style="color: white;" [routerLink]="['/home']">Portfolio</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
         aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -42,10 +42,9 @@
 </nav>
 
 
-<!--Get all employee-->
-<div class="container" id="main-container">
+<div class="container-fluid" id="main-container">
     <div class="row">
-        <div class="col-md-0">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title text-uppercase mb-0">Manage Users</h5>
@@ -73,10 +72,10 @@
                                 <td class="text-center">{{employee?.personalCode}}</td>
                                 <td class="text-center">{{employee?.email}}</td>
                                 <td class="text-center">{{employee?.address}}</td>
-                                <td class="text-center">{{employee?.phone}} </td>
+                                <td class="text-center">{{employee?.phone}}</td>
                                 <td class="text-center">
-                                  <div *ngIf="employee.role == 'ROLE_ADMIN'" class="">ADMIN</div>
-                                  <div *ngIf="employee.role == 'ROLE_USER'" class="">USER</div>
+                                    <div *ngIf="employee.role == 'ROLE_ADMIN'" class="">ADMIN</div>
+                                    <div *ngIf="employee.role == 'ROLE_USER'" class="">USER</div>
                                 </td>
                                 
                                 <td class="text-center">

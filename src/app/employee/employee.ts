@@ -13,3 +13,4 @@ export interface Employee{
     role:Role;
     transaction:Transaction[];
 }
+
