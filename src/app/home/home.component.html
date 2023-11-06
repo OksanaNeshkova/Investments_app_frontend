@@ -38,7 +38,7 @@
         <th scope="col" class="border-0 text-uppercase font-medium">#</th>
         <th scope="col" class="border-0 text-uppercase font-medium">Symbol</th>
         <th scope="col" class="border-0 text-uppercase font-medium">Share Name</th>
-        <th scope="col" class="border-0 text-uppercase font-medium">Balance</th>
+        <th scope="col" class="border-0 text-uppercase font-medium ">Balance</th>
         <th scope="col" class="border-0 text-uppercase font-medium">Currency</th>
         <th scope="col" class="border-0 text-uppercase font-medium">Current Price</th>
         <th scope="col" class="border-0 text-uppercase font-medium">Book Value</th>
@@ -52,14 +52,13 @@
         <td class="pl-2">{{ i + 1 }}</td>
         <td>{{ shareBalance.symbol }}</td>
         <td>{{ shareBalance.shareName }}</td>
-        <td>{{ shareBalance.balance }}</td>
+        <td>{{ shareBalance.balance|number:'1.0-0' }}</td>
         <td>{{ shareBalance.currency }}</td>
-        <td>{{ shareBalance.currentPrice }}</td>
-        <td>{{ getBookValue(shareBalance) }}</td>
-        <td>{{ getCurrentMarketValue(shareBalance) }}</td>
-        <td [ngClass]="{'text-danger': getTotalReturnPercentage(shareBalance) < 0,
-                      'text-success': getTotalReturnPercentage(shareBalance) >= 0}">
-          {{ getTotalReturnPercentage(shareBalance) | number:'1.2-2' }}
+        <td>{{ shareBalance.currentPrice |number:'1.2-2'}}</td>
+        <td>{{ getBookValue(shareBalance)|number:'1.0-0' }}</td>
+        <td>{{ getCurrentMarketValue(shareBalance)|number:'1.0-2' }}</td>
+        <td [ngClass]="{'text-danger': getTotalReturnPercentage(shareBalance) < 0, 'text-success': getTotalReturnPercentage(shareBalance) >= 0}">
+          {{ formatPositiveNumber(getTotalReturnPercentage(shareBalance)) }}
         </td>
       </tr>
     </tbody>

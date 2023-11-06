@@ -13,6 +13,7 @@ import { TwelvedataService } from '../twelvedata/twelvedata.service';
 export class HomeComponent implements OnInit {
   isAuthenticated: boolean = false;
   shareBalances: Balance[] = [];
+
   constructor(private loginService: LoginService, private router:Router, private shareService: ShareService, private twelvedataService:TwelvedataService) { }
 
   ngOnInit() {
@@ -23,6 +24,12 @@ export class HomeComponent implements OnInit {
   getRowClass(shareBalance: Balance): string {
     const totalReturnPercentage = this.getTotalReturnPercentage(shareBalance);
     return totalReturnPercentage >= 0 ? 'text-success' : 'text-danger';
+  }
+
+  formatPositiveNumber(number: any): string {
+    const numericValue = +number;
+    const formattedValue = numericValue.toFixed(2);
+    return numericValue >= 0 ? `+${formattedValue}` : `${formattedValue}`;
   }
   
   getBookValue(shareBalance: Balance): number {
@@ -36,7 +43,8 @@ export class HomeComponent implements OnInit {
   getTotalReturnPercentage(shareBalance: Balance): number {
     const bookValue = this.getBookValue(shareBalance);
     const marketValue = this.getCurrentMarketValue(shareBalance);
-    return ((marketValue / bookValue - 1) * 100);
+    const totalReturn = ((marketValue / bookValue - 1) * 100);
+    return Number(totalReturn.toFixed(2));
   }
 
   loadShareBalances() {
@@ -44,6 +52,8 @@ export class HomeComponent implements OnInit {
       (balances: Balance[]) => {
         this.shareBalances = balances;
         this.fetchCurrentQuote();
+
+
       },
       (error) => {
         console.error('Error fetching share balances: ', error);
@@ -55,7 +65,6 @@ export class HomeComponent implements OnInit {
     this.shareBalances.forEach((balance) => {
       this.twelvedataService.getCurrentPrice(balance.symbol).subscribe(
         (response: any) => {
-          // const price = parseFloat(response.price);
           balance.currentPrice = response.price; 
         },
         (error) => {
@@ -63,10 +72,13 @@ export class HomeComponent implements OnInit {
         }
       );
     });
+   
   }
 
 
   logout(){
     this.loginService.logout();
   }
+
+
 }

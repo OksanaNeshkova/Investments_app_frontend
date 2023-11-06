@@ -70,10 +70,10 @@
                         <td class="pl-2 text-center">{{ transaction?.date }}</td>
                         <td class="pl-2 text-center">{{ transaction?.employee?.id }}</td>
                         <td class="text-center">{{ transaction?.type }}</td>
-                        <td class="text-center">{{ transaction?.volume }}</td>
+                        <td class="text-center">{{ transaction?.volume | number:'1.0-0'}}</td>
                         <td class="text-center">{{ transaction?.share?.currency }}</td>
                         <td class="text-center">{{ transaction?.share?.symbol }}</td>
-                        <td class="text-center">{{ transaction?.price }}</td>
+                        <td class="text-center">{{ transaction?.price | number:'1.0-2'}}</td>
                         <td class="text-center">
                           <button (click)="onOpenModal(transaction, 'edit')" class="btn btn-outline-info btn-circle btn-lg btn-circle ml-2">
                             <i class="fa fa-edit"></i>
