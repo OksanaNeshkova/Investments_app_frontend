@@ -24,13 +24,14 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarColor02">
-        <ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addEmployeeModal">
+                <button type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#addEmployeeModal">
                     Add Employee
                 </button>
             </li>
         </ul>
+   
 
         <form class="form-inline my-2 my-lg-0">
             <input type="search" (ngModelChange)="searchEmployees(key.value)" #key="ngModel" ngModel name="key"

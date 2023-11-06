@@ -20,27 +20,26 @@
        aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
        <span class="navbar-toggler-icon"></span>
    </button>
-   <div class="collapse navbar-collapse" id="navbarColor02">
-      <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addTransactionModal">
-                  Add Transaction
-              </button>
-          </li>
+   <div class="collapse navbar-collapse text-right" id="navbarColor02">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <button type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#addTransactionModal">
+            Add Transaction
+          </button>
+        </li>
       </ul>
-       <form class="form-inline my-2 my-lg-0 ml-auto">
-         <input
-           type="search"
-           [(ngModel)]="searchKey"
-           (ngModelChange)="searchTransaction()"
-           name="key"
-           id="searchName"
-           class="form-control mr-sm-2"
-           placeholder="Search transactions..."
-           required
-         >
-       </form>
-       <button class="btn btn-outline-light my-2 my-sm-0"  (click)="logout()">Logout</button>
+      <form class="form-inline my-2 my-lg-0">
+        <input
+          type="search"
+          [(ngModel)]="searchKey"
+          (ngModelChange)="searchTransaction()"
+          name="key"
+          id="searchName"
+          class="form-control mr-sm-2"
+          placeholder="Search transactions..."
+          required>
+      </form>
+      <button class="btn btn-outline-light my-2 my-sm-0" (click)="logout()">Logout</button>
     </div>
   </nav>
   <!--Get all transactions-->  
