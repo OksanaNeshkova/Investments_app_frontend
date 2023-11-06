@@ -27,9 +27,15 @@ export class LoginComponent {
           console.log('Login successful');
         },
         error => {
-          this.loginError = true; // Set a flag for displaying error message in the template
+          this.loginError = true; 
+          this.clearForm();
           console.error('Login failed', error);
         }
       );
+  }
+
+  clearForm(): void {
+    this.email = ''; // Clear email input
+    this.password = ''; // Clear password input
   }
 }
