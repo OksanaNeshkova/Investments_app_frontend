@@ -23,19 +23,21 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarColor02">
-        <ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addShareModal">
+                <button type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#addShareModal">
                     Add Share
                 </button>
             </li>
+            <li class="nav-item">
+                <form class="form-inline my-0 my-lg-0 mr-auto">
+                    <input type="search" (ngModelChange)="searchShares(key.value)" #key="ngModel" ngModel name="key"
+                        id="searchName" class="form-control mr-2" placeholder="Search shares..." required>
+                </form>
+            </li>
+            <button class="btn btn-outline-light my-2 my-sm-0"  (click)="logout()">Logout</button>
         </ul>
-        <form class="form-inline my-2 my-lg-0 ml-auto">
-            <input type="search" (ngModelChange)="searchShares(key.value)" #key="ngModel" ngModel name="key"
-                id="searchName" class="form-control mr-sm-2" placeholder="Search shares..." required>
-        </form>
-        <button class="btn btn-outline-light my-2 my-sm-0" (click)="logout()">Logout</button>
-    </div>
+    </div>    
 </nav>
 <!--Get all share-->
 <div class="container" id="main-container">
