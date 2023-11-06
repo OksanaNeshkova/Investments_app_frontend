@@ -55,7 +55,7 @@ export class HomeComponent implements OnInit {
     this.shareBalances.forEach((balance) => {
       this.twelvedataService.getCurrentPrice(balance.symbol).subscribe(
         (response: any) => {
-          const price = parseFloat(response.price);
+          // const price = parseFloat(response.price);
           balance.currentPrice = response.price; 
         },
         (error) => {
