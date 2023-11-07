@@ -23,6 +23,8 @@ export class LoginComponent {
     this.loginService.login(this.email, this.password)
       .subscribe(
         () => {
+          const userRole = localStorage.getItem('user-role');
+          console.log(`User's Role: ${userRole}`);
           this.router.navigate(['/home']);
           console.log('Login successful');
         },

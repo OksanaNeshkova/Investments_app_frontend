@@ -13,11 +13,14 @@ import { TwelvedataService } from '../twelvedata/twelvedata.service';
 export class HomeComponent implements OnInit {
   isAuthenticated: boolean = false;
   shareBalances: Balance[] = [];
+  isAdmin:boolean = false;
 
   constructor(private loginService: LoginService, private router:Router, private shareService: ShareService, private twelvedataService:TwelvedataService) { }
 
   ngOnInit() {
-    this.loadShareBalances()
+    this.loadShareBalances();
+    const userRole = localStorage.getItem('user-role');
+        this.isAdmin=userRole === 'ROLE_ADMIN';
     
   }
   
@@ -75,7 +78,22 @@ export class HomeComponent implements OnInit {
    
   }
 
-
+  public searchPositions(key: string): void {
+    // Method to search for shares based on a keyword
+    console.log(key);
+    if (!this.shareBalances|| !key.trim()) {
+        this.loadShareBalances;
+        return;
+    }
+    const results: Balance[] = [];
+    for (const balance of this.shareBalances) {
+        if (balance.symbol.toLowerCase().indexOf(key.toLowerCase()) !== -1
+            || balance.shareName.toLowerCase().indexOf(key.toLowerCase()) !== -1) {
+            results.push(balance); 
+        }
+    }
+    this.shareBalances = results;
+}
   logout(){
     this.loginService.logout();
   }

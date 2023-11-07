@@ -39,9 +39,10 @@ import { BehaviorSubject, Observable, catchError, tap } from "rxjs";
               localStorage.setItem(this.authTokenKey, token);
               console.log(token);
               console.log("token is saved to localstorage");
-              if(!token){
-                console.log("token is undefined or null")
-              }
+              const decodeToken:any = this.decodeToken(token);
+              const role:string = decodeToken.role;
+              localStorage.setItem('user-role', role);
+             
               this.isAuthenticated.next(true);
             }),
             catchError(error => {
@@ -50,6 +51,13 @@ import { BehaviorSubject, Observable, catchError, tap } from "rxjs";
             })
           );
       }
+
+      decodeToken(token: string): any {
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        return JSON.parse(window.atob(base64));
+      }
+
       logout() {
         // Remove token from localStorage and update authentication status
         localStorage.removeItem(this.authTokenKey);

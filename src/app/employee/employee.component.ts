@@ -20,6 +20,7 @@ export class EmployeeComponent implements OnInit {
     public employees: Employee[] | undefined;
     public editEmployee: Employee | undefined | null;
     public deleteEmployee: Employee | undefined | null;
+    isAdmin:boolean = false;
 
     constructor(private employeeService: EmployeeService, private router: Router,  private loginService: LoginService) { }
 
@@ -31,6 +32,8 @@ export class EmployeeComponent implements OnInit {
 
     ngOnInit() {
         this.getAllEmployees();
+        const userRole = localStorage.getItem('user-role');
+        this.isAdmin=userRole === 'ROLE_ADMIN';
     }
 
     logout(){

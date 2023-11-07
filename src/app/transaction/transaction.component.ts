@@ -22,12 +22,15 @@ import { LoginService } from "../login/login.service";
   public editTransaction:Transaction | undefined | null;
   public deleteTransaction:Transaction | undefined | null;
   public searchKey: string = '';
+  isAdmin:boolean = false;
 
   constructor(private transactionService: TransactionService,private router: Router,private shareService:ShareService, private employeeService:EmployeeService, private loginService: LoginService) {}
 
   title = 'Transactions';
   ngOnInit() {
       this.getTransactionsWithShares();
+      const userRole = localStorage.getItem('user-role');
+        this.isAdmin=userRole === 'ROLE_ADMIN';
 }
   
   

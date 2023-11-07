@@ -16,9 +16,13 @@ import { LoginService } from '../login/login.service';
 export class ShareComponent implements OnInit {
     public shares: Share[] | undefined;
     public editShare: Share | undefined | null;
+    isAdmin:boolean = false;
+
     constructor(private shareService: ShareService, private router: Router, private loginService: LoginService) { }
     ngOnInit() {
         this.getAllShares();
+        const userRole = localStorage.getItem('user-role');
+        this.isAdmin=userRole === 'ROLE_ADMIN';
     }
     goToEmployee(): void {
         this.router.navigate(['/share']); // Navigate to the '/share' route
