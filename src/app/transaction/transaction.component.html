@@ -106,10 +106,13 @@
          </div>
          <div class="modal-body">
             <form #addForm="ngForm" (ngSubmit)="onAddTransaction(addForm)">
-            <div class="form-group">
-               <label for="Transaction type">Transaction type</label>
-               <input type="text" ngModel name="type" class="form-control" id="type" placeholder="Transaction type" required>
-            </div>
+               <div class="form-group">
+                  <label for="transactionType">Transaction Type</label>
+                  <select ngModel name="type" class="form-control" id="transactionType" required>
+                      <option value="PURCHASE">Purchase</option>
+                      <option value="SALE">Sale</option>
+                  </select>
+              </div>              
             <div class="form-group">
                <label for="fx">FX</label>
                <input type="number" ngModel name="fx" class="form-control" id="fx" placeholder="Fx" required>
