@@ -3,8 +3,6 @@
 ## Overview
 This web application is designed for a company that manages employees buying stocks. It provides a user-friendly interface for signing up as an ADMIN or USER, managing employees, shares, and transactions, and includes an API integration for accessing current market prices.
 
-![img.png](img.png)
-
 ## General Guidelines
 The application is built using the following technologies and practices:
 - Spring Boot
