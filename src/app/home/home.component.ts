@@ -93,10 +93,12 @@ export class HomeComponent implements OnInit {
         }
     }
     this.shareBalances = results;
-}
+    if (results.length === 0 || !key) {
+      this.loadShareBalances(); // Retrieve all shares if the keyword is empty or no results are found
+      }
+    }
+
   logout(){
     this.loginService.logout();
   }
-
-
 }

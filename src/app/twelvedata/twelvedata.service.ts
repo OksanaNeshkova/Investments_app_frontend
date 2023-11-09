@@ -8,7 +8,7 @@ export class TwelvedataService {
 
   constructor(private http: HttpClient) { }
 
-  private apiKey = '08d34a01f72a4334acef959e30f4ca8f';
+  private apiKey = '';
   private apiUrl = 'https://api.twelvedata.com';
 
   getCurrentPrice(symbol: string) {
