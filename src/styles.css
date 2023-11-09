@@ -47,3 +47,17 @@ a {
 a {
 color: white;
 }
+.error-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  width: auto; 
+  margin: 20px; 
+  text-align: center;
+  background-color: #f8d7da; 
+  color: #721c24; 
+  border: 1px solid #f5c6cb; 
+  border-radius: 5px; 
+}
