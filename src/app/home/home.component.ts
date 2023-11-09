@@ -93,6 +93,9 @@ export class HomeComponent implements OnInit {
         }
     }
     this.shareBalances = results;
+    if(results.length===0 || !key){
+      this.loadShareBalances();
+    }
 }
   logout(){
     this.loginService.logout();
