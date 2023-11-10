@@ -17,10 +17,14 @@ import { LoginService } from '../login/login.service';
 })
 
 export class EmployeeComponent implements OnInit {
-    public employees: Employee[] | undefined;
+    employees: Employee[] = [];
     public editEmployee: Employee | undefined | null;
     public deleteEmployee: Employee | undefined | null;
     isAdmin:boolean = false;
+    public errorMessage: string = '';
+    public customPlaceholder: string = 'Search employee...';
+    searchKey: string = '';
+    filteredEmployees: Employee[] = [];
 
     constructor(private employeeService: EmployeeService, private router: Router,  private loginService: LoginService) { }
 
@@ -49,6 +53,7 @@ export class EmployeeComponent implements OnInit {
             (response: Employee[]) => {
                 this.employees = response;
                 console.log(this.employees);
+                this.filteredEmployees = [...this.employees]
             },
             (error: HttpErrorResponse) => {
                 alert(error.message)
@@ -111,30 +116,27 @@ export class EmployeeComponent implements OnInit {
         button.click();
     }
 
-    public searchEmployees(key: string): void {
-        // Method to search for employees based on a keyword
-        console.log(key);
-        if (!this.employees|| !key.trim()) {
-            this.getAllEmployees();
-            return;
-        }
-        const results: Employee[] = [];
-        for (const employee of this.employees) {
-            if (employee.firstName.toLowerCase().indexOf(key.toLowerCase()) !== -1
-                || employee.lastName.toLowerCase().indexOf(key.toLowerCase()) !== -1
-                ||  (employee.personalCode?.toString().includes(key))
-                || employee.email.toLowerCase().indexOf(key.toLowerCase()) !== -1
-                || employee.address.toLowerCase().indexOf(key.toLowerCase()) !== -1
-                || employee.phone.toLowerCase().indexOf(key.toLowerCase()) !== -1) {
-                results.push(employee); // Add the matching employees to the results array
-            }
-        }
-        this.employees = results; // Replace the component's employees array with the results array
-        if (results.length === 0 || !key) {
-            this.getAllEmployees(); // Retrieve all employees if the keyword is empty or no results are found
+    handleSearch(searchText: string): void {
+        this.filteredEmployees = this.employees.filter(employee =>
+            employee.firstName.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
+                || employee.lastName.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
+                ||  (employee.personalCode?.toString().includes(searchText))
+                || employee.email.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
+                || employee.address.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
+                || employee.phone.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
+                || employee.role.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
+        );
+        if (this.filteredEmployees.length === 0) {
+          this.errorMessage = 'No matching records found.';
+        } else {
+          this.errorMessage = '';
         }
     }
-
+    
+      onSearchTextEntered(key: string) {
+        this.searchKey = key;
+        this.handleSearch(this.searchKey);
+    }
 
     public onDeleteEmployee(employeeId: number | undefined): void{
         if(employeeId == null){

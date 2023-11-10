@@ -18,11 +18,14 @@ import { LoginService } from "../login/login.service";
   })
   export class TransactionComponent implements OnInit {
 
-  public transactions: Transaction[] | undefined;
+  transactions: Transaction[]=[];
   public editTransaction:Transaction | undefined | null;
   public deleteTransaction:Transaction | undefined | null;
-  public searchKey: string = '';
   isAdmin:boolean = false;
+  public customPlaceholder: string = 'Search transaction...';
+  public errorMessage: string = '';
+  searchKey: string = '';
+  filteredTransactions: Transaction[] = [];
 
   constructor(private transactionService: TransactionService,private router: Router,private shareService:ShareService, private employeeService:EmployeeService, private loginService: LoginService) {}
 
@@ -48,6 +51,7 @@ import { LoginService } from "../login/login.service";
         this.transactions = response;
         this.attachShareInfoToTransactions();
         console.log(this.transactions);
+        this.filteredTransactions = [...this.transactions]
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -146,32 +150,25 @@ import { LoginService } from "../login/login.service";
     button.click();
   }
 
-  public searchTransaction(): void {
-    if (!this.transactions) {
-      return;
-    }
-  
-    const lowerCaseKey = this.searchKey.toLowerCase(); // Convert search key to lowercase for case-insensitive comparison
-    const results: Transaction[] = [];
-  
-    for (const transaction of this.transactions) {
 
-      if (
-        transaction.share.symbol.toLowerCase().includes(lowerCaseKey) ||
-        transaction.share.currency.toLowerCase().includes(lowerCaseKey) ||
-        transaction.volume.toString().includes(this.searchKey) ||
-        transaction.price.toString().includes(this.searchKey) ||
-        transaction.employee.firstName.toLowerCase().includes(lowerCaseKey) ||
-        transaction.employee.lastName.toLowerCase().includes(lowerCaseKey)
-      ) {
-        results.push(transaction);
-      }
+  handleSearch(searchText: string): void {
+    this.filteredTransactions = this.transactions.filter(transaction =>
+      transaction.share.symbol.toLowerCase().includes(searchText) ||
+      transaction.share.currency.toLowerCase().includes(searchText) ||
+      transaction.volume.toString().includes(this.searchKey) ||
+      transaction.price.toString().includes(this.searchKey) ||
+      transaction.employee.firstName.toLowerCase().includes(searchText) ||
+      transaction.employee.lastName.toLowerCase().includes(searchText)
+    );
+    if (this.filteredTransactions.length === 0) {
+      this.errorMessage = 'No matching records found.';
+    } else {
+      this.errorMessage = '';
     }
-    
-    this.transactions = results;
-  
-    if (results.length === 0 || !this.searchKey) {
-      this.getTransactionsWithShares();
-    }
-  }
+}
+
+  onSearchTextEntered(key: string) {
+    this.searchKey = key;
+    this.handleSearch(this.searchKey);
+}
   }

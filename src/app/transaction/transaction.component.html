@@ -28,20 +28,16 @@
           </button>
         </li>
       </ul>
-      <form class="form-inline my-2 my-lg-0">
-        <input
-          type="search"
-          [(ngModel)]="searchKey"
-          (ngModelChange)="searchTransaction()"
-          name="key"
-          id="searchName"
-          class="form-control mr-sm-2"
-          placeholder="Search transactions..."
-          required>
-      </form>
+      <div >
+         <app-search [placeholder]="customPlaceholder" (searchTextChanged)="onSearchTextEntered($event)">
+         </app-search>
+       </div>
       <button class="btn btn-outline-light my-2 my-sm-0" (click)="logout()">Logout</button>
     </div>
   </nav>
+  <div *ngIf="errorMessage" class="error-message">
+   {{ errorMessage }}
+ </div>
   <!--Get all transactions-->  
   <div class="container-fluid" id="main-container">
    <div class="row">
@@ -65,7 +61,7 @@
                            </tr>
                        </thead>
                        <tbody>
-                           <tr *ngFor="let transaction of transactions">
+                           <tr *ngFor="let transaction of filteredTransactions">
                                <td class="pl-2 text-center">{{ transaction?.date }}</td>
                                <td class="pl-2 text-center">{{ transaction?.employee?.id }}</td>
                                <td class="text-center">{{ transaction?.type }}</td>

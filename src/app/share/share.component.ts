@@ -14,9 +14,13 @@ import { LoginService } from '../login/login.service';
     styleUrls: ['./share.component.css']
 })
 export class ShareComponent implements OnInit {
-    public shares: Share[] | undefined;
+    public shares: Share[] =[];
     public editShare: Share | undefined | null;
     isAdmin:boolean = false;
+    public errorMessage: string = '';
+    public customPlaceholder: string = 'Search shares...';
+    searchKey: string = '';
+    filteredShares: Share[] = [];
 
     constructor(private shareService: ShareService, private router: Router, private loginService: LoginService) { }
     ngOnInit() {
@@ -32,6 +36,7 @@ export class ShareComponent implements OnInit {
             (response: Share[]) => {
                 this.shares = response;
                 console.log(this.shares);
+                this.filteredShares = [...this.shares]
             },
             (error: HttpErrorResponse) => {
                 alert(error.message)
@@ -88,27 +93,25 @@ export class ShareComponent implements OnInit {
         }
         button.click();
     }
-    public searchShares(key: string): void {
-        // Method to search for shares based on a keyword
-        console.log(key);
-        if (!this.shares|| !key.trim()) {
-            this.getAllShares();
-            return;
+    
+    handleSearch(searchText: string): void {
+        this.filteredShares = this.shares.filter(share =>
+            share.companyName.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
+                || share.shareName.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
+                || share.symbol.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
+                || share.currency.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
+                || share.country.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
+                || share.economicField.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
+        );
+        if (this.filteredShares.length === 0) {
+          this.errorMessage = 'No matching records found.';
+        } else {
+          this.errorMessage = '';
         }
-        const results: Share[] = [];
-        for (const share of this.shares) {
-            if (share.companyName.toLowerCase().indexOf(key.toLowerCase()) !== -1
-                || share.shareName.toLowerCase().indexOf(key.toLowerCase()) !== -1
-                || share.symbol.toLowerCase().indexOf(key.toLowerCase()) !== -1
-                || share.currency.toLowerCase().indexOf(key.toLowerCase()) !== -1
-                || share.country.toLowerCase().indexOf(key.toLowerCase()) !== -1
-                || share.economicField.toLowerCase().indexOf(key.toLowerCase()) !== -1) {
-                results.push(share); // Add the matching shares to the results array
-            }
-        }
-        this.shares = results; // Replace the component's shares array with the results array
-        if (results.length === 0 || !key) {
-            this.getAllShares(); // Retrieve all shares if the keyword is empty or no results are found
-        }
+    }
+    
+      onSearchTextEntered(key: string) {
+        this.searchKey = key;
+        this.handleSearch(this.searchKey);
     }
 }
