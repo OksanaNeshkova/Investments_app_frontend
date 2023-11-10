@@ -21,6 +21,10 @@ export class HomeComponent implements OnInit {
   shareBalances: Balance[] = [];
   isAdmin:boolean = false;
   currentUser: Employee | undefined;
+  public errorMessage: string = '';
+  public customPlaceholder: string = 'Search position...';
+  searchKey: string = '';
+  filteredShareBalances: Balance[] = [];
 
   constructor(private loginService: LoginService, private router:Router, private employeeService: EmployeeService, private shareService: ShareService, private twelvedataService:TwelvedataService) { }
 
@@ -29,7 +33,6 @@ export class HomeComponent implements OnInit {
     this.loadCurrentUser();
     const userRole = localStorage.getItem('user-role');
         this.isAdmin=userRole === 'ROLE_ADMIN';
-    
   }
 
   getRowClass(shareBalance: Balance): string {
@@ -63,8 +66,8 @@ export class HomeComponent implements OnInit {
       (balances: Balance[]) => {
         this.shareBalances = balances;
         this.fetchCurrentQuote();
-
-
+        this.filteredShareBalances = [...this.shareBalances];
+        console.log('Share Balances:', this.shareBalances);
       },
       (error) => {
         console.error('Error fetching share balances: ', error);
@@ -86,26 +89,24 @@ export class HomeComponent implements OnInit {
    
   }
 
-  public searchPositions(key: string): void {
-    // Method to search for shares based on a keyword
-    console.log(key);
-    if (!this.shareBalances|| !key.trim()) {
-        this.loadShareBalances;
-        return;
-    }
-    const results: Balance[] = [];
-    for (const balance of this.shareBalances) {
-        if (balance.symbol.toLowerCase().indexOf(key.toLowerCase()) !== -1
-            || balance.shareName.toLowerCase().indexOf(key.toLowerCase()) !== -1) {
-            results.push(balance); 
-        }
-    }
-    this.shareBalances = results;
-    if (results.length === 0 || !key) {
-      this.loadShareBalances(); // Retrieve all shares if the keyword is empty or no results are found
-      }
-    }
 
+handleSearch(searchText: string): void {
+    this.filteredShareBalances = this.shareBalances.filter(shareBalance =>
+        shareBalance.symbol.toLowerCase().includes(searchText.toLowerCase()) ||
+        shareBalance.shareName.toLowerCase().includes(searchText.toLowerCase())
+    );
+    if (this.filteredShareBalances.length === 0) {
+      this.errorMessage = 'No matching records found.';
+    } else {
+      this.errorMessage = '';
+    }
+}
+
+  onSearchTextEntered(key: string) {
+    this.searchKey = key;
+    this.handleSearch(this.searchKey);
+}
+  
   logout(){
     this.loginService.logout();
   }

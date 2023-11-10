@@ -19,61 +19,61 @@
     aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
+
   <div class="collapse navbar-collapse justify-content-between" id="navbarColor02">
-    <form class="form-inline my-2 my-lg-0 ml-auto">
-      <input type="search" (ngModelChange)="searchPositions(key.value)" #key="ngModel" ngModel name="key"
-        id="searchName" class="form-control mr-sm-2" placeholder="Search position" required>
-    </form>
+    <ul class="navbar-nav ml-auto">
+
+    </ul>
+    <div>
+      <app-search [placeholder]="customPlaceholder" (searchTextChanged)="onSearchTextEntered($event)">
+      </app-search>
+    </div>
     <button type="button" class="btn btn-outline-light my-2 my-sm-0 mr-2" data-toggle="modal"
       data-target="#updateProfileModal">
       Edit Profile
     </button>
+
     <button class="btn btn-outline-light my-2 my-sm-0" (click)="logout()">Logout</button>
   </div>
 </nav>
 
+<div *ngIf="errorMessage" class="error-message">
+  {{ errorMessage }}
+</div>
 
-<ng-container *ngIf="shareBalances.length > 0; else showLoginMessage">
-  <div class="container-fluid" id="main-container">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card-body">
-          <h5 class="card-title text-uppercase mb-0">Portfolio</h5>
-        </div>
-        <table class="table no-wrap user-table mb-0">
-          <thead>
-            <tr>
-              <th scope="col" class="border-0 text-uppercase font-medium text-center">#</th>
-              <th scope="col" class="border-0 text-uppercase font-medium text-center">Symbol</th>
-              <th scope="col" class="border-0 text-uppercase font-medium text-center">Share Name</th>
-              <th scope="col" class="border-0 text-uppercase font-medium text-center">Balance</th>
-              <th scope="col" class="border-0 text-uppercase font-medium text-center">Currency</th>
-              <th scope="col" class="border-0 text-uppercase font-medium text-center">Current Price</th>
-              <th scope="col" class="border-0 text-uppercase font-medium text-center">Book Value</th>
-              <th scope="col" class="border-0 text-uppercase font-medium text-center">Current Market Value</th>
-              <th scope="col" class="border-0 text-uppercase font-medium text-center">Total Return (%)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let shareBalance of shareBalances; let i = index">
-              <td class="text-center">{{ i + 1 }}</td>
-              <td class="text-center">{{ shareBalance.symbol }}</td>
-              <td class="text-center">{{ shareBalance.shareName }}</td>
-              <td class="text-center">{{ shareBalance.balance|number:'1.0-0' }}</td>
-              <td class="text-center">{{ shareBalance.currency }}</td>
-              <td class="text-center">{{ shareBalance.currentPrice |number:'1.2-2'}}</td>
-              <td class="text-center">{{ getBookValue(shareBalance)|number:'1.0-0' }}</td>
-              <td class="text-center">{{ getCurrentMarketValue(shareBalance)|number:'1.0-2' }}</td>
-              <td class="text-center"
-                [ngClass]="{'text-danger': getTotalReturnPercentage(shareBalance) < 0, 'text-success': getTotalReturnPercentage(shareBalance) >= 0}">
-                {{ formatPositiveNumber(getTotalReturnPercentage(shareBalance)) }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+<ng-container>
+  <h2>Portfolio</h2>
+  <table class="table no-wrap user-table mb-0">
+    <thead>
+      <tr>
+        <th scope="col" class="border-0 text-uppercase font-medium text-center">#</th>
+        <th scope="col" class="border-0 text-uppercase font-medium text-center">Symbol</th>
+        <th scope="col" class="border-0 text-uppercase font-medium text-center">Share Name</th>
+        <th scope="col" class="border-0 text-uppercase font-medium text-center">Balance</th>
+        <th scope="col" class="border-0 text-uppercase font-medium text-center">Currency</th>
+        <th scope="col" class="border-0 text-uppercase font-medium text-center">Current Price</th>
+        <th scope="col" class="border-0 text-uppercase font-medium text-center">Book Value</th>
+        <th scope="col" class="border-0 text-uppercase font-medium text-center">Current Market Value</th>
+        <th scope="col" class="border-0 text-uppercase font-medium text-center">Total Return (%)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let shareBalance of filteredShareBalances; let i = index">
+        <td class="text-center">{{ i + 1 }}</td>
+        <td class="text-center">{{ shareBalance.symbol }}</td>
+        <td class="text-center">{{ shareBalance.shareName }}</td>
+        <td class="text-center">{{ shareBalance.balance|number:'1.0-0' }}</td>
+        <td class="text-center">{{ shareBalance.currency }}</td>
+        <td class="text-center">{{ shareBalance.currentPrice |number:'1.2-2'}}</td>
+        <td class="text-center">{{ getBookValue(shareBalance)|number:'1.0-0' }}</td>
+        <td class="text-center">{{ getCurrentMarketValue(shareBalance)|number:'1.0-2' }}</td>
+        <td class="text-center"
+          [ngClass]="{'text-danger': getTotalReturnPercentage(shareBalance) < 0, 'text-success': getTotalReturnPercentage(shareBalance) >= 0}">
+          {{ formatPositiveNumber(getTotalReturnPercentage(shareBalance)) }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </ng-container>
 
 <ng-template #showLoginMessage>
@@ -82,54 +82,53 @@
 
 <!-- Update Profile Modal -->
 <div class="modal fade" id="updateProfileModal" tabindex="-1" role="dialog" aria-labelledby="updateProfileModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-              <form #editForm="ngForm">
-                    <div class="form-group">
-                        <label for="firstName">First Name</label>
-                        <input type="text" ngModel="{{updateProfile?.firstName}}" name="firstName" class="form-control"
-                            id="firstName" placeholder="First Name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="lastName">Last Name</label>
-                        <input type="text" ngModel="{{updateProfile?.lastName}}" name="lastName" class="form-control"
-                            id="lastName" placeholder="Last Name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" ngModel="{{updateProfile?.password}}" name="password" class="form-control"
-                            id="password" placeholder="Password" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="personalCode">Personal Code</label>
-                        <input type="number" ngModel="{{updateProfile?.personalCode}}" name="personalCode"
-                            class="form-control" id="personalCode" placeholder="Personal Code" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>/
-                        <input type="email" ngModel="{{updateProfile?.email}}" name="email" class="form-control"
-                            id="email" placeholder="Email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="address">Address</label>
-                        <input type="text" ngModel="{{updateProfile?.address}}" name="address" class="form-control"
-                            id="address" placeholder="Address" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Phone</label>
-                        <input type="text" ngModel="{{updateProfile?.phone}}" name="phone" class="form-control"
-                            id="phone" placeholder="Phone" required>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" id="closeEditModalBtn" data-dismiss="modal"
-                          class="btn btn-secondary">Close</button>
-                      <button (click)="onUpdateProfile(editForm.value)" data-dismiss="modal" class="btn btn-primary"
-                          [disabled]="editForm.invalid">Save changes</button>
-                  </div>
-                </form>
-            </div>
-        </div>
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <form #editForm="ngForm">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" ngModel="{{updateProfile?.firstName}}" name="firstName" class="form-control"
+              id="firstName" placeholder="First Name" required>
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" ngModel="{{updateProfile?.lastName}}" name="lastName" class="form-control" id="lastName"
+              placeholder="Last Name" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" ngModel="{{updateProfile?.password}}" name="password" class="form-control"
+              id="password" placeholder="Password" required>
+          </div>
+          <div class="form-group">
+            <label for="personalCode">Personal Code</label>
+            <input type="number" ngModel="{{updateProfile?.personalCode}}" name="personalCode" class="form-control"
+              id="personalCode" placeholder="Personal Code" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>/
+            <input type="email" ngModel="{{updateProfile?.email}}" name="email" class="form-control" id="email"
+              placeholder="Email" required>
+          </div>
+          <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" ngModel="{{updateProfile?.address}}" name="address" class="form-control" id="address"
+              placeholder="Address" required>
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="text" ngModel="{{updateProfile?.phone}}" name="phone" class="form-control" id="phone"
+              placeholder="Phone" required>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="closeEditModalBtn" data-dismiss="modal" class="btn btn-secondary">Close</button>
+            <button (click)="onUpdateProfile(editForm.value)" data-dismiss="modal" class="btn btn-primary"
+              [disabled]="editForm.invalid">Save changes</button>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </div>

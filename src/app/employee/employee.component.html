@@ -33,17 +33,18 @@
                 </button>
             </li>
         </ul>
-   
-
-        <form class="form-inline my-2 my-lg-0">
-            <input type="search" (ngModelChange)="searchEmployees(key.value)" #key="ngModel" ngModel name="key"
-                id="searchName" class="form-control mr-sm-2" placeholder="Search employees..." required>
-        </form>
+        <div >
+            <app-search [placeholder]="customPlaceholder" (searchTextChanged)="onSearchTextEntered($event)">
+            </app-search>
+          </div>
+      
         <button class="btn btn-outline-light my-2 my-sm-0" (click)="logout()">Logout</button>
     </div>
 </nav>
-
-
+<div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+  
 <div class="container-fluid" id="main-container">
     <div class="row">
         <div class="col-md-12">
@@ -67,7 +68,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let employee of employees">
+                            <tr *ngFor="let employee of filteredEmployees">
                                 <td class="text-center">{{employee?.id}}</td>
                                 <td class="text-center">{{employee?.firstName}}</td>
                                 <td class="text-center">{{employee?.lastName}}</td>

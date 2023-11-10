@@ -30,15 +30,18 @@
                 </button>
             </li>
             <li class="nav-item">
-                <form class="form-inline my-0 my-lg-0 mr-auto">
-                    <input type="search" (ngModelChange)="searchShares(key.value)" #key="ngModel" ngModel name="key"
-                        id="searchName" class="form-control mr-2" placeholder="Search shares..." required>
-                </form>
+                <div >
+                    <app-search [placeholder]="customPlaceholder" (searchTextChanged)="onSearchTextEntered($event)">
+                    </app-search>
+                  </div>
             </li>
             <button class="btn btn-outline-light my-2 my-sm-0"  (click)="logout()">Logout</button>
         </ul>
     </div>    
 </nav>
+<div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
 <!--Get all share-->
 <div class="container-fluid" id="main-container">
     <div class="row">
@@ -62,7 +65,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let share of shares">
+                            <tr *ngFor="let share of filteredShares">
                                 <td class="pl-2" style="text-align: center;">{{share?.id}}</td>
                                 <td style="text-align: center;">{{share?.symbol}}</td>
                                 <td style="text-align: center;">{{share?.currency}}</td>

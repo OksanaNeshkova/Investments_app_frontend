@@ -14,6 +14,9 @@ import { ShareComponent } from './share/share.component';
 import { EmployeeService } from './employee/employee.service';
 import { HomeComponent } from './home/home.component';
 
+import { SearchComponent } from './search/search.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,13 +24,16 @@ import { HomeComponent } from './home/home.component';
     EmployeeComponent,
     ShareComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    SearchComponent,
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
