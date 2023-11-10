@@ -134,8 +134,14 @@
                <input type="text" ngModel name="secId" class="form-control" id="secId" placeholder="Share symbol" required>
            </div>
             <div class="modal-footer">
-               <button type="button" id="add-transaction-form" class="btn btn-secondary" data-dismiss="modal">Close</button>
-               <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary" >Save changes</button>
+               <button type="button" 
+                        id="add-transaction-form" 
+                        class="btn btn-secondary" 
+                        data-dismiss="modal">Close</button>
+               <button  (click)="onAddTransaction(addForm)" 
+                        data-dismiss="modal" 
+                        class="btn btn-primary"
+                        [disabled]="addForm.invalid">Save changes</button>
             </div>
             </form>
          </div>

@@ -19,26 +19,27 @@ import { LoginService } from '../login/login.service';
 export class EmployeeComponent implements OnInit {
     public employees: Employee[] | undefined;
     public editEmployee: Employee | undefined | null;
+    public updateProfile: Employee | undefined | null;
     public deleteEmployee: Employee | undefined | null;
-    isAdmin:boolean = false;
+    isAdmin: boolean = false;
 
-    constructor(private employeeService: EmployeeService, private router: Router,  private loginService: LoginService) { }
+    constructor(private employeeService: EmployeeService, private router: Router, private loginService: LoginService) { }
 
     navigateToSharePage() {
         // You can use the Angular Router to navigate to the "share" page
         this.router.navigate(['./share']);
-      }
-       
+    }
+
 
     ngOnInit() {
         this.getAllEmployees();
         const userRole = localStorage.getItem('user-role');
-        this.isAdmin=userRole === 'ROLE_ADMIN';
+        this.isAdmin = userRole === 'ROLE_ADMIN';
     }
 
-    logout(){
+    logout() {
         this.loginService.logout();
-      }
+    }
 
     goToEmployee(): void {
         this.router.navigate(['/employee']); // Navigate to the '/employee' route
@@ -75,7 +76,7 @@ export class EmployeeComponent implements OnInit {
     //To handle updating existing employee
     public onUpdateEmployee(formValues: any): void {
         const updatedEmployee: Employee = { ...this.editEmployee, ...formValues };
-    
+
         this.employeeService.updateEmployee(updatedEmployee).subscribe(
             (response: Employee) => {
                 console.log(response);
@@ -83,6 +84,22 @@ export class EmployeeComponent implements OnInit {
             },
             (error: HttpErrorResponse) => {
                 alert(error.message);
+            }
+        );
+    }
+
+    public onUpdateProfile(formValues: any): void {
+        const updatedProfile: Employee = { ...this.updateProfile, ...formValues };
+    
+        this.employeeService.updateProfile(updatedProfile).subscribe(
+            (response: Employee) => {
+                console.log(response);
+                // Optionally close the modal here
+                // Refresh data or redirect as needed
+            },
+            (error: HttpErrorResponse) => {
+                alert(error.message);
+                // Handle errors appropriately
             }
         );
     }
@@ -101,9 +118,13 @@ export class EmployeeComponent implements OnInit {
             this.editEmployee = employee; // Assign the employee to be edited to the editEmployee object
             button.setAttribute('data-target', '#updateEmployeeModal');
         }
+        if (mode === 'update') {
+            this.editEmployee = employee; // Assign the employee to be edited to the editEmployee object
+            button.setAttribute('data-target', '#updateProfileModal');
+        }
         if (mode === 'delete') {
-          this.deleteEmployee = employee; // Assign the employee to be deleted to the deleteEmployee object
-          button.setAttribute('data-target', '#deleteEmployeeModal');
+            this.deleteEmployee = employee; // Assign the employee to be deleted to the deleteEmployee object
+            button.setAttribute('data-target', '#deleteEmployeeModal');
         }
         if (container) {
             container.appendChild(button);
@@ -114,7 +135,7 @@ export class EmployeeComponent implements OnInit {
     public searchEmployees(key: string): void {
         // Method to search for employees based on a keyword
         console.log(key);
-        if (!this.employees|| !key.trim()) {
+        if (!this.employees || !key.trim()) {
             this.getAllEmployees();
             return;
         }
@@ -122,7 +143,7 @@ export class EmployeeComponent implements OnInit {
         for (const employee of this.employees) {
             if (employee.firstName.toLowerCase().indexOf(key.toLowerCase()) !== -1
                 || employee.lastName.toLowerCase().indexOf(key.toLowerCase()) !== -1
-                ||  (employee.personalCode?.toString().includes(key))
+                || (employee.personalCode?.toString().includes(key))
                 || employee.email.toLowerCase().indexOf(key.toLowerCase()) !== -1
                 || employee.address.toLowerCase().indexOf(key.toLowerCase()) !== -1
                 || employee.phone.toLowerCase().indexOf(key.toLowerCase()) !== -1) {
@@ -136,19 +157,19 @@ export class EmployeeComponent implements OnInit {
     }
 
 
-    public onDeleteEmployee(employeeId: number | undefined): void{
-        if(employeeId == null){
+    public onDeleteEmployee(employeeId: number | undefined): void {
+        if (employeeId == null) {
             return;
         }
         this.employeeService.deleteEmployee(employeeId).subscribe(
-          (response: void) => {
-            console.log(response);
-            this.getAllEmployees();
-          },
-          (error: HttpErrorResponse) =>{
-            alert(error.message);
-          }   
+            (response: void) => {
+                console.log(response);
+                this.getAllEmployees();
+            },
+            (error: HttpErrorResponse) => {
+                alert(error.message);
+            }
         )
-      }
-      
+    }
+
 }

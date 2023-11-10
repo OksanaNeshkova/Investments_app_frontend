@@ -153,9 +153,14 @@
                         </select>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="closeEditModalBtn" data-dismiss="modal"
-                            class="btn btn-secondary">Close</button>
-                        <button type="submit" class="btn btn-primary" [disabled]="addForm.invalid">Save changes</button>
+                        <button type="button" 
+                                id="closeEditModalBtn" 
+                                data-dismiss="modal"
+                                class="btn btn-secondary">Close</button>
+                        <button (click)="onAddEmployee(addForm)" 
+                                data-dismiss="modal" 
+                                class="btn btn-primary"
+                                [disabled]="addForm.invalid">Save changes</button>
                     </div>
                 </form>
             </div>
