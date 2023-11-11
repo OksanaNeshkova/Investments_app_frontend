@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Employee } from './employee';
 import { EmployeeService } from './employee.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -23,9 +23,15 @@ export class EmployeeComponent implements OnInit {
     public deleteEmployee: Employee | undefined | null;
     isAdmin:boolean = false;
     public errorMessage: string = '';
+    public addError:string='';
+    public updateError:string='';
     public customPlaceholder: string = 'Search employee...';
     searchKey: string = '';
     filteredEmployees: Employee[] = [];
+
+    @ViewChild('addForm', { static: false }) addForm!: NgForm;
+    // @ViewChild('editForm', { static: false }) editForm!: NgForm;
+
 
     constructor(private employeeService: EmployeeService, private router: Router, private loginService: LoginService) { }
 
@@ -64,31 +70,65 @@ export class EmployeeComponent implements OnInit {
 
     //Method to handle the addition of a new employee
     public onAddEmployee(addForm: NgForm): void {
+        this.addError = '';  // Reset error message
         this.employeeService.addEmployee(addForm.value).subscribe(
             (response: Employee) => {
                 console.log(response);
-                this.getAllEmployees(); //Retrieve all employees after adding new one
-                addForm.reset(); //Reset the form after successful addition
-            },
-            (error: HttpErrorResponse) => {
-                alert(error.message)
                 addForm.reset();
+                this.getAllEmployees();
+                this.closeAddEmployeeModal(); 
+            },
+            (error) => {
+                console.log(error);
+                this.addError = error;
             }
-        )
+        );
+    }
+    public closeAddEmployeeModal(): void {
+        const modal = document.getElementById('addEmployeeModal');
+        if (modal) {
+            modal.style.display = 'none';  
+            document.body.classList.remove('modal-open'); 
+            const modalBackdrop = document.querySelector('.modal-backdrop');
+            if (modalBackdrop) {
+                modalBackdrop.remove();
+            }
+            if (this.addForm) {
+                this.addForm.resetForm();
+                this.addError = '';
+            }
+
+        }
     }
 
-
+    public closeUpdateEmployeeModal(): void {
+        const modal = document.getElementById('updateEmployeeModal');
+        if (modal) {
+            modal.style.display = 'none';  
+            document.body.classList.remove('modal-open'); 
+            const modalBackdrop = document.querySelector('.modal-backdrop');
+            if (modalBackdrop) {
+                modalBackdrop.remove();
+            }
+        }
+        this.updateError = '';
+    }
+    
     //To handle updating existing employee
     public onUpdateEmployee(formValues: any): void {
+        this.updateError = '';
         const updatedEmployee: Employee = { ...this.editEmployee, ...formValues };
-
         this.employeeService.updateEmployee(updatedEmployee).subscribe(
             (response: Employee) => {
                 console.log(response);
                 this.getAllEmployees();
+                this.closeUpdateEmployeeModal(); 
             },
             (error: HttpErrorResponse) => {
-                alert(error.message);
+                console.log(error);
+                if (error.status === 409) {
+                    this.updateError = error.error; // Access the custom error message
+                }
             }
         );
     }
