@@ -99,6 +99,9 @@
                 </button>
             </div>
             <div class="modal-body">
+                <div *ngIf="addError" class="alert alert-danger">
+                    {{ addError }}
+                </div>
                 <form #addForm="ngForm" (ngSubmit)="onAddShare(addForm)">
                     <div class="form-group">
                         <label for="symbol">Symbol</label>
@@ -134,9 +137,9 @@
                         <button type="button" 
                                 id="closeEditModalBtn" 
                                 data-dismiss="modal" 
-                                class="btn btn-secondary">Close</button>
-                        <button (click)="onAddShare(addForm)" 
-                                data-dismiss="modal" 
+                                class="btn btn-secondary"
+                                (click)="closeAddShareModal()">Close</button>
+                                <button type="submit" 
                                 class="btn btn-primary"
                                 [disabled]="addForm.invalid">Save changes</button>
                     </div>
@@ -157,6 +160,9 @@
                 </button>
             </div>
             <div class="modal-body">
+                <div *ngIf="updateError" class="alert alert-danger">
+                    {{ updateError }}
+                </div>
                 <form #editForm="ngForm">
                     <div class="form-group">
                         <label for="symbol">Symbol</label>
@@ -189,10 +195,8 @@
                             class="form-control" id="economicField" placeholder="Economic Field" required>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="closeEditModalBtn" data-dismiss="modal"
-                            class="btn btn-secondary">Close</button>
-                        <button (click)="onUpdateShare(editForm.value)" data-dismiss="modal" class="btn btn-primary"
-                            [disabled]="editForm.invalid">Save changes</button>
+                        <button type="button" id="closeEditModalBtn" (click)="closeUpdateShareModal()" class="btn btn-secondary">Close</button>
+                  <button (click)="onUpdateShare(editForm.value)" class="btn btn-primary" [disabled]="editForm.invalid">Save changes</button>
                     </div>
                 </form>
             </div>

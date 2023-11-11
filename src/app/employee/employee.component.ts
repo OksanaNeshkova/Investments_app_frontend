@@ -28,10 +28,10 @@ export class EmployeeComponent implements OnInit {
     public customPlaceholder: string = 'Search employee...';
     searchKey: string = '';
     filteredEmployees: Employee[] = [];
+    
 
     @ViewChild('addForm', { static: false }) addForm!: NgForm;
-    // @ViewChild('editForm', { static: false }) editForm!: NgForm;
-
+   
 
     constructor(private employeeService: EmployeeService, private router: Router, private loginService: LoginService) { }
 
