@@ -88,8 +88,6 @@
    </div>
 </div>
 
-
-
   <!-- Add transaction Modal -->
   <div class="modal fade" id="addTransactionModal" tabindex="-1" role="dialog" aria-labelledby="addTransactionModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -101,6 +99,9 @@
             </button>
          </div>
          <div class="modal-body">
+            <div *ngIf="addError" class="alert alert-danger">
+               {{ addError }}
+           </div>
             <form #addForm="ngForm" (ngSubmit)="onAddTransaction(addForm)">
                <div class="form-group">
                   <label for="transactionType">Transaction Type</label>
@@ -129,16 +130,16 @@
                <label for="secId">Share symbol</label>
                <input type="text" ngModel name="secId" class="form-control" id="secId" placeholder="Share symbol" required>
            </div>
-            <div class="modal-footer">
-               <button type="button" 
-                        id="add-transaction-form" 
-                        class="btn btn-secondary" 
-                        data-dismiss="modal">Close</button>
-               <button  (click)="onAddTransaction(addForm)" 
-                        data-dismiss="modal" 
-                        class="btn btn-primary"
-                        [disabled]="addForm.invalid">Save changes</button>
-            </div>
+           <div class="modal-footer">
+            <button type="button" 
+                    id="closeEditModalBtn" 
+                    data-dismiss="modal" 
+                    class="btn btn-secondary"
+                    (click)="closeAddTransactionModal()">Close</button>
+                    <button type="submit" 
+                    class="btn btn-primary"
+                    [disabled]="addForm.invalid">Save changes</button>
+        </div>
             </form>
          </div>
       </div>
@@ -155,10 +156,16 @@
              </button>
           </div>
           <div class="modal-body">
+            <div *ngIf="updateError" class="alert alert-danger">
+               {{ updateError }}
+           </div>
              <form #editForm="ngForm">
                 <div class="form-group">
                     <label for="volume">Transaction type</label>
-                   <input type="text" ngModel="{{editTransaction?.type}}" name="type" class="form-control" id="type" placeholder="Transaction type">
+                    <select ngModel name="type" class="form-control" id="transactionType" required>
+                     <option value="PURCHASE">Purchase</option>
+                     <option value="SALE">Sale</option>
+                 </select>
                 </div>
                 <input type="hidden" ngModel="{{editTransaction?.id}}" name="id" class="form-control" id="id" placeholder="Id">
                 <input type="hidden" ngModel="{{editTransaction?.date}}" name="date" class="form-control" id="date" placeholder="Date">
@@ -172,9 +179,9 @@
                    <input type="number" ngModel="{{editTransaction?.price}}" name="price" class="form-control" id="price" placeholder="Trade price">
                 </div>
                 <div class="modal-footer">
-                   <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Close</button>
-                   <button (click)="onUpdateTransaction(editForm.value)" data-dismiss="modal" class="btn btn-primary" >Save changes</button>
-                </div>
+                  <button type="button" id="closeEditModalBtn" (click)="closeUpdateTransactionModal()" class="btn btn-secondary">Close</button>
+            <button (click)="onUpdateTransaction(editForm.value)" class="btn btn-primary" [disabled]="editForm.invalid">Save changes</button>
+              </div>
              </form>
           </div>
        </div>
@@ -191,10 +198,13 @@
              </button>
           </div>
           <div class="modal-body">
+            <div *ngIf="deleteError" class="alert alert-danger">
+               {{ deleteError }}
+           </div>
              <p>Are you sure you want to delete transaction {{deleteTransaction?.id}}?</p>
              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                <button (click)="onDeleteTransaction(deleteTransaction?.id)" class="btn btn-danger" data-dismiss="modal">Yes</button>
+               <button type="button" id="closeEditModalBtn" (click)="closeDeleteTransactionModal()" class="btn btn-secondary" data-dismiss="modal">No</button>
+               <button class="btn btn-danger" (click)="onDeleteTransaction(deleteTransaction?.id)">Yes</button>
              </div>
           </div>
        </div>

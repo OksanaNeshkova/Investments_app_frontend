@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { Transaction } from "./transaction";
 import { TransactionService } from "./transaction.service";
 import { HttpErrorResponse } from "@angular/common/http";
@@ -26,6 +26,12 @@ import { LoginService } from "../login/login.service";
   public errorMessage: string = '';
   searchKey: string = '';
   filteredTransactions: Transaction[] = [];
+  public addError:string='';
+  public updateError:string='';
+  public deleteError:string='';
+
+  @ViewChild('addForm', { static: false }) addForm!: NgForm;
+
 
   constructor(private transactionService: TransactionService,private router: Router,private shareService:ShareService, private employeeService:EmployeeService, private loginService: LoginService) {}
 
@@ -90,41 +96,102 @@ import { LoginService } from "../login/login.service";
       console.log(response);
       this.getTransactionsWithShares();
       addForm.reset();
+      this.closeAddTransactionModal();
     },
     (error: HttpErrorResponse) => {
-      alert(error.message);
-      addForm.reset();
+      console.log(error);
+      if (error.status === 409) {
+          this.addError = error.error;
+      }
     }
   );
   }
+
+  public closeAddTransactionModal(): void {
+    const modal = document.getElementById('addTransactionModal');
+    if (modal) {
+        modal.style.display = 'none';  
+        document.body.classList.remove('modal-open'); 
+        const modalBackdrop = document.querySelector('.modal-backdrop');
+        if (modalBackdrop) {
+            modalBackdrop.remove();
+        }
+        if (this.addForm) {
+            this.addForm.resetForm();
+            this.addError = '';
+        }
+
+    }
+}
+
   //To handle updating existing transaction
   public onUpdateTransaction (transaction:Transaction): void {
+    this.updateError = '';
     this.transactionService.updateTransaction(transaction).subscribe(
       (response:Transaction) => {
         console.log(response);
         this.getTransactionsWithShares()
+        this.closeUpdateTransactionModal(); 
       },
       (error:HttpErrorResponse) => {
-        alert (error.message);
+        console.log(error);
+        if (error.status === 409) {
+          this.updateError = error.error; // Access the custom error message
       }
+      }
+      
     )
   }
 
+  public closeUpdateTransactionModal(): void {
+    const modal = document.getElementById('updateTransactionModal');
+    if (modal) {
+        modal.style.display = 'none';  
+        document.body.classList.remove('modal-open'); 
+        const modalBackdrop = document.querySelector('.modal-backdrop');
+        if (modalBackdrop) {
+            modalBackdrop.remove();
+        }
+    }
+    this.updateError = '';
+
+}
+
   //To handle deletion of a transaction
   public onDeleteTransaction (transactionId:number|undefined):void {
+    
     if (transactionId == undefined){
       return;
     }
+    this.deleteError = '';
     this.transactionService.deleteTransaction(transactionId).subscribe(
       (response:void) => {
         console.log(response);
-        this.getTransactionsWithShares()
+        this.getTransactionsWithShares();
+          this.closeDeleteTransactionModal();
+        
       },
       (error:HttpErrorResponse) => {
-        alert (error.message);
-      }
-    )
-  }
+        console.log(error);
+                if (error.status === 409) {
+                    this.deleteError = error.error; // Access the custom error message
+                }
+              }
+            );
+          }
+
+  public closeDeleteTransactionModal(): void {
+    const modal = document.getElementById('deleteTransactionModal');
+    if (modal) {
+        modal.style.display = 'none';  
+        document.body.classList.remove('modal-open'); 
+        const modalBackdrop = document.querySelector('.modal-backdrop');
+        if (modalBackdrop) {
+            modalBackdrop.remove();
+        }
+    }
+    this.deleteError = '';
+}
 
   public onOpenModal(transaction: Transaction | null, mode: string): void {
     // Method to handle modal window for adding, editing or deleting a transaction
