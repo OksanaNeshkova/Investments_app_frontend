@@ -37,9 +37,6 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
     public getEmployeeByTransactionId(transactionId: number): Observable<Employee> {
         return this.http.get<Employee>(`${this.apiServerUrl}/employee/findEmp/${transactionId}`);
     }
-    public updateProfile(employee: Employee): Observable<Employee> {
-        return this.http.put<Employee>(`${this.apiServerUrl}/employee/update`, employee);
-    }
 
     getCurrentUser(): Observable<Employee> {
         // Assuming the endpoint to get the current user's data is '/employee/current'

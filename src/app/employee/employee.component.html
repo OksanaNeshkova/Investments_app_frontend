@@ -156,20 +156,15 @@
                         </select>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" 
-                        id="closeEditModalBtn" 
-                        data-dismiss="modal"
-                        class="btn btn-secondary"
-                        (click)="closeAddEmployeeModal()">Close</button>
-                        <button type="submit" 
-                                class="btn btn-primary"
-                                [disabled]="addForm.invalid">Save changes</button>
+                        <button type="button" id="closeEditModalBtn" data-dismiss="modal" class="btn btn-secondary"
+                            (click)="closeAddEmployeeModal()">Close</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="addForm.invalid">Save changes</button>
                     </div>
                 </form>
-                </div>
             </div>
         </div>
     </div>
+</div>
 
 
 <!-- Edit Employee Modal -->
@@ -227,8 +222,10 @@
                         </select>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="closeEditModalBtn" (click)="closeUpdateEmployeeModal()" class="btn btn-secondary">Close</button>
-                  <button (click)="onUpdateEmployee(editForm.value)" class="btn btn-primary" [disabled]="editForm.invalid">Save changes</button>
+                        <button type="button" id="closeEditModalBtn" (click)="closeUpdateEmployeeModal()"
+                            class="btn btn-secondary">Close</button>
+                        <button (click)="onUpdateEmployee(editForm.value)" class="btn btn-primary"
+                            [disabled]="editForm.invalid">Save changes</button>
                     </div>
                 </form>
             </div>
