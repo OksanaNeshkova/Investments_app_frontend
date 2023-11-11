@@ -29,6 +29,7 @@ export class EmployeeComponent implements OnInit {
     searchKey: string = '';
     filteredEmployees: Employee[] = [];
 
+
     @ViewChild('addForm', { static: false }) addForm!: NgForm;
     // @ViewChild('editForm', { static: false }) editForm!: NgForm;
 
@@ -133,22 +134,6 @@ export class EmployeeComponent implements OnInit {
         );
     }
 
-    public onUpdateProfile(formValues: any): void {
-        const updatedProfile: Employee = { ...this.updateProfile, ...formValues };
-    
-        this.employeeService.updateProfile(updatedProfile).subscribe(
-            (response: Employee) => {
-                console.log(response);
-                // Optionally close the modal here
-                // Refresh data or redirect as needed
-            },
-            (error: HttpErrorResponse) => {
-                alert(error.message);
-                // Handle errors appropriately
-            }
-        );
-    }
-
     public onOpenModal(employee: Employee | null, mode: string): void {
         // Method to handle modal window for adding, editing or deleting an employee
         const container = document.getElementById('main-container');
@@ -162,10 +147,6 @@ export class EmployeeComponent implements OnInit {
         if (mode === 'edit') {
             this.editEmployee = employee; // Assign the employee to be edited to the editEmployee object
             button.setAttribute('data-target', '#updateEmployeeModal');
-        }
-        if (mode === 'update') {
-            this.editEmployee = employee; // Assign the employee to be edited to the editEmployee object
-            button.setAttribute('data-target', '#updateProfileModal');
         }
         if (mode === 'delete') {
             this.deleteEmployee = employee; // Assign the employee to be deleted to the deleteEmployee object
