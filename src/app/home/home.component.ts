@@ -64,7 +64,7 @@ export class HomeComponent implements OnInit {
   loadShareBalances() {
     this.shareService.getBalances().subscribe(
       (balances: Balance[]) => {
-        this.shareBalances = balances;
+        this.shareBalances = this.shareBalances = balances.filter(balance => balance.balance > 0);
         this.fetchCurrentQuote();
         this.filteredShareBalances = [...this.shareBalances];
         console.log('Share Balances:', this.shareBalances);
