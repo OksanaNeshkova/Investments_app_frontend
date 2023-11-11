@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.loadShareBalances();
-    this.loadCurrentUser();
+    // this.loadCurrentUser();
     const userRole = localStorage.getItem('user-role');
         this.isAdmin=userRole === 'ROLE_ADMIN';
   }
@@ -110,36 +110,60 @@ handleSearch(searchText: string): void {
   logout(){
     this.loginService.logout();
   }
-  loadCurrentUser() {
-    // Assuming you have a method in employeeService to fetch the current user's data
-    // This should ideally use the token to fetch the corresponding user data
-    this.employeeService.getCurrentUser().subscribe(
-      (userData: Employee) => {
-        this.currentUser = userData;
-        this.updateProfile = { ...userData }; // Initialize updateProfile with currentUser data
-      },
-      (error) => {
-        console.error('Error fetching current user data: ', error);
-      }
-    );
-  }
+  // loadCurrentUser() {
+  //   // Assuming you have a method in employeeService to fetch the current user's data
+  //   // This should ideally use the token to fetch the corresponding user data
+  //   this.employeeService.getCurrentUser().subscribe(
+  //     (userData: Employee) => {
+  //       this.currentUser = userData;
+  //       this.updateProfile = { ...userData }; // Initialize updateProfile with currentUser data
+  //     },
+  //     (error) => {
+  //       console.error('Error fetching current user data: ', error);
+  //     }
+  //   );
+  // }
 
 
   public onUpdateProfile(formValues: any): void {
     const token = this.loginService.getAuthToken();
     if (!token) {
-      // Handle the case where there is no token (user not logged in)
+      console.error('No auth token found. User might not be logged in.');
       return;
     }
+
+    // Decode the token to get the email
+    const decodedToken = this.loginService.decodeToken(token);
+    const userEmail = decodedToken.email; // Replace 'email' with the correct key if different
+    const userId = decodedToken.userId;
+    //
+
+    if (!userEmail) {
+      console.error('Email not found in the token.');
+      return;
+    }
+
+    if (!userId) {
+      console.error('User ID not found in the token.');
+      return;
+    }
+
+    const decodedEmail = decodedToken.decodedEmail;
+
+    if (!decodedEmail) {
+      console.error('Decoded email not found in the token.');
+      return;
+    }
+
     const updatedProfile: Employee = { ...this.updateProfile, ...formValues };
 
     this.employeeService.updateProfile(updatedProfile).subscribe(
         (response: Employee) => {
-            console.log(response);
+          console.log('Profile updated:', response);
 
         },
         (error: HttpErrorResponse) => {
-            alert(error.message);
+          alert('Error updating profile: ' + error.message);
         }
     );
 }

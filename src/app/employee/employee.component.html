@@ -1,5 +1,3 @@
-
-
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 
 <nav class="navbar navbar-expand navbar-dark bg-dark">
@@ -33,18 +31,18 @@
                 </button>
             </li>
         </ul>
-        <div >
+        <div>
             <app-search [placeholder]="customPlaceholder" (searchTextChanged)="onSearchTextEntered($event)">
             </app-search>
-          </div>
-      
+        </div>
+
         <button class="btn btn-outline-light my-2 my-sm-0" (click)="logout()">Logout</button>
     </div>
 </nav>
 <div *ngIf="errorMessage" class="error-message">
     {{ errorMessage }}
-  </div>
-  
+</div>
+
 <div class="container-fluid" id="main-container">
     <div class="row">
         <div class="col-md-12">
@@ -59,7 +57,8 @@
                                 <th scope="col" class="border-0 text-uppercase font-medium text-center">#</th>
                                 <th scope="col" class="border-0 text-uppercase font-medium text-center">First Name</th>
                                 <th scope="col" class="border-0 text-uppercase font-medium text-center">Last Name</th>
-                                <th scope="col" class="border-0 text-uppercase font-medium text-center">Personal Code</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium text-center">Personal Code
+                                </th>
                                 <th scope="col" class="border-0 text-uppercase font-medium text-center">Email</th>
                                 <th scope="col" class="border-0 text-uppercase font-medium text-center">Address</th>
                                 <th scope="col" class="border-0 text-uppercase font-medium text-center">Phone</th>
@@ -80,7 +79,7 @@
                                     <div *ngIf="employee.role == 'ROLE_ADMIN'" class="">ADMIN</div>
                                     <div *ngIf="employee.role == 'ROLE_USER'" class="">USER</div>
                                 </td>
-                                
+
                                 <td class="text-center">
                                     <button (click)="onOpenModal(employee, 'edit')"
                                         class="btn btn-outline-info btn-circle btn-lg btn-circle ml-2"><i
@@ -154,14 +153,10 @@
                         </select>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" 
-                                id="closeEditModalBtn" 
-                                data-dismiss="modal"
-                                class="btn btn-secondary">Close</button>
-                        <button (click)="onAddEmployee(addForm)" 
-                                data-dismiss="modal" 
-                                class="btn btn-primary"
-                                [disabled]="addForm.invalid">Save changes</button>
+                        <button type="button" id="closeEditModalBtn" data-dismiss="modal"
+                            class="btn btn-secondary">Close</button>
+                        <button (click)="onAddEmployee(addForm)" data-dismiss="modal" class="btn btn-primary"
+                            [disabled]="addForm.invalid">Save changes</button>
                     </div>
                 </form>
             </div>

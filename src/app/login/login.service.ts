@@ -73,6 +73,13 @@ import { BehaviorSubject, Observable, catchError, tap } from "rxjs";
         console.log(localStorage.getItem(this.authTokenKey));
         console.log("token retrieved")
         return localStorage.getItem(this.authTokenKey);
-        
+      }
+
+      getCurrentUserEmail(): string | null {
+        const token = this.getAuthToken();
+        if (!token) return null;
+    
+        const decoded = this.decodeToken(token);
+        return decoded.email; 
       }
   }
