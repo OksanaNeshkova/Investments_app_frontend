@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Share } from './share';
 import { ShareService } from './share.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -21,6 +21,10 @@ export class ShareComponent implements OnInit {
     public customPlaceholder: string = 'Search shares...';
     searchKey: string = '';
     filteredShares: Share[] = [];
+    public addError:string='';
+    public updateError:string='';
+
+    @ViewChild('addForm', { static: false }) addForm!: NgForm;
 
     constructor(private shareService: ShareService, private router: Router, private loginService: LoginService) { }
     ngOnInit() {
@@ -52,28 +56,67 @@ export class ShareComponent implements OnInit {
         this.shareService.addShares(addForm.value).subscribe(
             (response: Share) => {
                 console.log(response);
-                this.getAllShares(); //Retrieve all shares after adding new one
-                addForm.reset(); //Reset the form after successful addition
+                this.getAllShares();
+                addForm.reset();
+                this.closeAddShareModal();
             },
             (error: HttpErrorResponse) => {
-                alert(error.message)
-                addForm.reset();
+                console.log(error);
+                if (error.status === 409) {
+                    this.addError = error.error;
+                }
             }
-        )
+        );
+    }
+
+    public closeAddShareModal(): void {
+        const modal = document.getElementById('addShareModal');
+        if (modal) {
+            modal.style.display = 'none';  
+            document.body.classList.remove('modal-open'); 
+            const modalBackdrop = document.querySelector('.modal-backdrop');
+            if (modalBackdrop) {
+                modalBackdrop.remove();
+            }
+            if (this.addForm) {
+                this.addForm.resetForm();
+                this.addError = '';
+            }
+
+        }
     }
     //To handle updating existing share
     public onUpdateShare(formValues: any): void {
+        this.updateError = '';
         const updatedShare: Share = { ...this.editShare, ...formValues };
         this.shareService.updateShare(updatedShare).subscribe(
             (response: Share) => {
                 console.log(response);
                 this.getAllShares();
+                this.closeUpdateShareModal(); 
             },
             (error: HttpErrorResponse) => {
-                alert(error.message);
+                console.log(error);
+                if (error.status === 500) {
+                    this.updateError = error.error; // Access the custom error message
+                }
             }
         );
     }
+
+    public closeUpdateShareModal(): void {
+        const modal = document.getElementById('updateShareModal');
+        if (modal) {
+            modal.style.display = 'none';  
+            document.body.classList.remove('modal-open'); 
+            const modalBackdrop = document.querySelector('.modal-backdrop');
+            if (modalBackdrop) {
+                modalBackdrop.remove();
+            }
+        }
+        this.updateError = '';
+    }
+
     public onOpenModal(share: Share | null, mode: string): void {
         // Method to handle modal window for adding, editing or deleting an share
         const container = document.getElementById('main-container');

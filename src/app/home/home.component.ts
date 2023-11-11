@@ -89,7 +89,7 @@ export class HomeComponent implements OnInit {
 
   }
 
-  handleSearch(searchText: string): void {
+handleSearch(searchText: string): void {
     this.filteredShareBalances = this.shareBalances.filter(shareBalance =>
       shareBalance.symbol.toLowerCase().includes(searchText.toLowerCase()) ||
       shareBalance.shareName.toLowerCase().includes(searchText.toLowerCase())
